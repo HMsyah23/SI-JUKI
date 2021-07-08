@@ -32,8 +32,8 @@ class GuruController extends Controller
             'id_kepegawaian' => 'required',
             'nbm' => 'required|numeric',
             'nip' => 'required|numeric',
-            'gelar_depan' => 'required',
-            'gelar_belakang' => 'required',
+            // 'gelar_depan' => 'required',
+            // 'gelar_belakang' => 'required',
             'nama_depan' => 'required',
             'nama_belakang' => 'required',
             'jenis_kelamin' => 'required',
@@ -67,6 +67,7 @@ class GuruController extends Controller
             'role' => 2, 
             'email' => $r->email,  
             'password' => Hash::make('password'),
+            'foto' => $new_name,
         ]);
 
         Guru::create([

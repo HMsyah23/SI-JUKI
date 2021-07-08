@@ -2,7 +2,7 @@
 
   <!-- User box -->
   <div class="user-box text-center">
-      <img src="{{asset('images/users/admin.jpg')}}" alt="user-img" title="Mat Helme"
+      <img src="{{asset('gurus/'.Auth::user()->foto)}}" alt="user-img" title="Mat Helme"
           class="rounded-circle img-thumbnail avatar-md">
       <div class="dropdown">
           <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-toggle="dropdown"
@@ -26,13 +26,13 @@
       <p class="text-muted">Admin Head</p>
       <ul class="list-inline">
           <li class="list-inline-item">
-              <a href="#" class="text-muted">
+              <a href="{{route('admin.detail',Auth::user()->id_user)}}" class="text-muted">
                   <i class="mdi mdi-cog"></i>
               </a>
           </li>
 
           <li class="list-inline-item">
-              <a href="#">
+              <a href="{{route('auth.logout')}}">
                   <i class="mdi mdi-power"></i>
               </a>
           </li>
@@ -140,15 +140,15 @@
             <li class="menu-title">Data Jurnal Mengajar</li>
             
             <li>
-            <a href="{{route('guru.mata-pelajaran')}}">
+            <a href="{{route('guru.mapel')}}">
                 <i class="mdi mdi-book"></i>
                 <span> Mata Pelajaran </span>
             </a>
             </li>
             <li>
-            <a href="{{route('guru.agenda')}}">
+            <a href="{{route('guru.jurnal')}}">
                 <i class="mdi mdi-calendar"></i>
-                <span> Jurnal Mengajar Pengajaran </span>
+                <span> Jurnal Mengajar </span>
             </a>
             </li>
             <li>
@@ -157,12 +157,12 @@
                 <span> File Pengajaran </span>
             </a>
             </li>
-            <li>
+            {{-- <li>
             <a href="{{route('guru.lain')}}">
                 <i class="mdi mdi-calendar"></i>
                 <span> Kegiatan Lainnya </span>
             </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{route('guru.laporan')}}">
                     <i class="mdi mdi-file-multiple"></i>

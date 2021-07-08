@@ -30,13 +30,13 @@
                                 <div class="alert alert-info fade show mb-1">
                                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                   <h3 class="alert-heading"> <div class="badge badge-pill badge-purple"><i class="mdi mdi-teach"></i><strong>Misri Harini, A.Md</strong></div> </h3>
-                                  <p>Telah Mengisi Agenda Hari Ini Tanggal [ <strong>30-06-2021</strong> ] Mata Pelajaran <strong>Bahasa Indonesia</strong></p>
+                                  <p>Telah Mengisi Jurnal Mengajar Hari Ini Tanggal [ <strong>30-06-2021</strong> ] Mata Pelajaran <strong>Bahasa Indonesia</strong></p>
                                 </div>
 
                                 <div class="alert alert-info fade show mb-1">
                                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                   <h3 class="alert-heading"> <div class="badge badge-pill badge-purple"><i class="mdi mdi-teach"></i><strong>Darmansyah, SE</strong></div> </h3>
-                                  <p>Telah Mengisi Agenda Hari Ini Tanggal [ <strong>30-06-2021</strong> ] Mata Pelajaran <strong>Akuntansi</strong></p>
+                                  <p>Telah Mengisi Jurnal Mengajar Hari Ini Tanggal [ <strong>30-06-2021</strong> ] Mata Pelajaran <strong>Akuntansi</strong></p>
                                   {{-- <p class="mb-0 pt-1">
                                       <button type="button" class="btn btn-info waves-effect waves-light mr-1">Wanna do this</button>
                                       <button type="button" class="btn btn-light waves-effect">Or do this</button>
@@ -70,8 +70,8 @@
                                       <div class="col-xl-6 col-lg-6">
                                         <div class="card-box widget-user bg-info">
                                           <div class="text-center">
-                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">5</h1>
-                                              <h5 class="text-white"><i class="mdi mdi-calendar"></i> Agenda Hari Ini</h5>
+                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">{{$agenda->count()}}</h1>
+                                              <h5 class="text-white"><i class="mdi mdi-calendar"></i> Jurnal Mengajar <br> Hari Ini</h5>
                                           </div>
                                         </div>
                                       </div>
@@ -79,8 +79,8 @@
                                       <div class="col-xl-6 col-lg-6">
                                         <div class="card-box widget-user bg-success">
                                           <div class="text-center">
-                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">15</h1>
-                                              <h5 class="text-white"><i class="mdi mdi-calendar"></i> Semua Agenda</h5>
+                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">{{$agendas->count()}}</h1>
+                                              <h5 class="text-white"><i class="mdi mdi-calendar"></i> Semua <br> Jurnal Mengajar</h5>
                                           </div>
                                         </div>
                                       </div>
@@ -88,7 +88,7 @@
                                       <div class="col-xl-6 col-lg-6">
                                         <div class="card-box widget-user bg-purple">
                                           <div class="text-center">
-                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">14</h1>
+                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">{{$gurus->count()}}</h1>
                                               <h5 class="text-white"><i class="mdi mdi-account-group"></i> Jumlah Guru</h5>
                                           </div>
                                         </div>

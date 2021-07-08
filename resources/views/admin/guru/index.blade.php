@@ -125,7 +125,7 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label for="gelar_depan">Gelar Depan</label>
-                                          <input type="text" name="gelar_depan" class="form-control" placeholder="Masukkan Gelar Depan" value="{{old('gelar_depan')}}" maxlength="25" required>
+                                          <input type="text" name="gelar_depan" class="form-control" placeholder="Masukkan Gelar Depan" value="{{old('gelar_depan')}}" maxlength="25">
                                         </div>
                                       </div>
                                       <div class="col">
@@ -137,13 +137,13 @@
                                       <div class="col">
                                         <div class="form-group">
                                           <label for="">Nama Belakang</label>
-                                              <input type="text" name="nama_belakang" class="form-control" placeholder="Masukkan Nama Belakang" value="{{old('nama_belakang')}}" maxlength="25" required>
+                                              <input type="text" name="nama_belakang" class="form-control" placeholder="Masukkan Nama Belakang" value="{{old('nama_belakang')}}" maxlength="25" >
                                           </div>
                                         </div>
                                       <div class="col">
                                        <div class="form-group">
                                           <label for="">Gelar Belakang</label>
-                                            <input type="text" name="gelar_belakang" class="form-control" placeholder="Masukkan Gelar Belakang" value="{{old('gelar_belakang')}}" maxlength="25" required>
+                                            <input type="text" name="gelar_belakang" class="form-control" placeholder="Masukkan Gelar Belakang" value="{{old('gelar_belakang')}}" maxlength="25" >
                                         </div>
                                       </div>
                                     </div>

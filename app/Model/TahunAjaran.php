@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Agenda;
 use Illuminate\Database\Eloquent\Model;
 
 class TahunAjaran extends Model
@@ -10,4 +11,9 @@ class TahunAjaran extends Model
 
     public $timestamps = false;
     protected $guarded = [];
+
+    public function agenda()
+    {
+        return $this->hasOne(Agenda::class,'id_tahun_ajaran');
+    }
 }

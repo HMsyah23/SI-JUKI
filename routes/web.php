@@ -14,14 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect('login');
 });
 
 Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
-    Route::get('/dashboard', function () {
-        return view('admin.index');
-    })->name('admin.home');
-
+    Route::get('/dashboard', 'HomeController@admin')->name('admin.home');
+    
     // Tahun Ajaran
     Route::get('/master/tahun-ajaran','TahunAjaranController@index')->name('admin.tahun-ajaran');
     Route::post('/master/tahun-ajaran','TahunAjaranController@store')->name('tahun-ajaran.store');
@@ -61,9 +59,10 @@ Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
 
     //Pengguna
     Route::get('/master/pengguna','PenggunaController@index')->name('admin.pengguna');
+    Route::get('/master/pengguna/{id}','PenggunaController@show')->name('admin.detail');
     Route::post('/master/pengguna','PenggunaController@store')->name('pengguna.store');
     Route::delete('/master/pengguna/{id}','PenggunaController@destroy')->name('pengguna.delete');
-    Route::post('/master/pengguna/status/{id}','PenggunaController@status')->name('pengguna.ganti');
+    Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('pengguna.ganti');
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('pengguna.update');
 
     Route::get('/berkas', function () {
@@ -75,9 +74,18 @@ Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
 });
 
 Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
-    Route::get('/dashboard', function () {
-        return view('guru.index');
-    })->name('guru.home');
+    Route::get('/dashboard', 'HomeController@guru')->name('guru.home');
+    Route::get('/mata-pelajaran','KegiatanGuruController@mapel')->name('guru.mapel');
+    Route::post('/mata-pelajaran', 'KegiatanGuruController@mapelStore')->name('guru.mapel.store');
+    Route::delete('/mata-pelajaran/{id}', 'KegiatanGuruController@mapelDestroy')->name('guru.mapel.delete');
+    Route::get('/jurnal','KegiatanGuruController@jurnal')->name('guru.jurnal');
+    Route::get('/jurnal/{id}', 'KegiatanGuruController@jurnalShow')->name('guru.jurnal.show');
+    Route::get('/jurnal/tambah','KegiatanGuruController@addJurnal')->name('guru.addKegiatan');
+    Route::post('/jurnal', 'KegiatanGuruController@jurnalStore')->name('guru.jurnal.store');
+    Route::post('/jurnal/{id}', 'KegiatanGuruController@jurnalUpdate')->name('guru.jurnal.update');
+    Route::delete('/jurnal/{id}', 'KegiatanGuruController@jurnalDestroy')->name('guru.jurnal.delete');
+
+
 
     Route::get('/ganti-password', function () {
         return view('guru.gantiPassword');
@@ -87,9 +95,6 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
         return view('guru.laporan.index');
     })->name('guru.laporan');
 
-    Route::get('/mata-pelajaran', function () {
-        return view('guru.mata-pelajaran.index');
-    })->name('guru.mata-pelajaran');
 
     Route::get('/lainnya', function () {
         return view('guru.agenda.lain');
@@ -98,10 +103,6 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
     Route::get('/berkas', function () {
         return view('guru.berkas.index');
     })->name('guru.berkas');
-
-    Route::get('/agenda', function () {
-        return view('guru.agenda.index');
-    })->name('guru.agenda');
 });
 
 Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek'], function () {
@@ -146,4 +147,3 @@ Auth::routes();
 Route::get('auth/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 
-Route::get('/home', 'HomeController@index')->name('home');

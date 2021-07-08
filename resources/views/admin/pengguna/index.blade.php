@@ -67,6 +67,70 @@
                             </div>
                         </div>
                     </div>
+
+                    @if ($gurus->count() > 0)
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-box table-responsive">
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <h4 class="mt-0 header-title">Daftar Guru</h4>
+                              </div>
+                                <table id="responsive-datatable" class="table table-bordered table-bordered dt-responsive nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Peran</th>
+                                        <th>Email</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                      @forelse ($gurus as $item)
+                                      <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$item->name}}</td>
+                                        @if ($item->role == 0)
+                                          <td> <div class="badge badge-danger">Administrator</div> </td>
+                                        @elseif($item->role == 1)
+                                          <td> <div class="badge badge-purple">Kepala Sekolah</div> </td>
+                                        @else
+                                          <td> <div class="badge badge-info">Guru</div> </td>
+                                        @endif
+                                        <td>
+                                          {{$item->email}}
+                                        </td>
+                                        <td>
+                                          <div class="btn-group mb-1">
+                                            {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
+                                            <button data-toggle="modal" data-target="#ganti-{{$item->id_user}}" type="button" class="btn btn-info waves-effect text-white"><i class="fas fa-key"></i></button>
+                                            <button data-toggle="modal" data-target="#edit-{{$item->id_user}}" type="button" class="btn btn-warning waves-effect text-dark"><i class="fas fa-edit"></i></button>
+                                            @if (Auth::user()->id_user == $item->id_user)
+                                            @else
+                                            <form action="{{ route('pengguna.delete',$item->id_user) }}"  method="POST" enctype="multipart/form-data">
+                                              @csrf
+                                              @method('DELETE')
+                                              <button type="submit" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+                                              </form>
+                                            @endif
+                                            
+                                          </div>
+                                        </td>
+                                    </tr>
+                                      @empty
+                                          <tr>
+                                            <td colspan="5" class="text-ceneter">
+                                              <strong>Belum Ada Data</strong>
+                                            </td>
+                                          </tr>
+                                      @endforelse
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myCenterModalLabel" aria-hidden="true" style="display: none;">
                       <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
@@ -78,10 +142,12 @@
                                 <form method="POST" action="{{ route('pengguna.store') }}">
                                   @csrf
           
-                                  <div class="form-group row">
-                                      <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
+                                  <div class="row">
+                                      <div class="col">
+                                  <div class="form-group">
+                                      <div class="col">
+                                      <label for="name">{{ __('Nama') }}</label>
           
-                                      <div class="col-md-6">
                                           <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
           
                                           @error('name')
@@ -92,10 +158,10 @@
                                       </div>
                                   </div>
           
-                                  <div class="form-group row">
-                                      <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Alamat Email') }}</label>
+                                  <div class="form-group">
+                                      <div class="col">
+                                      <label for="email">{{ __('Alamat Email') }}</label>
           
-                                      <div class="col-md-6">
                                           <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
           
                                           @error('email')
@@ -105,24 +171,35 @@
                                           @enderror
                                       </div>
                                   </div>
-
-                                  <div class="form-group row">
-                                    <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Pesan') }}</label>
-        
-                                    <div class="col-md-6">
-                                         <select name="role" class="form-control @error('role') is-invalid @enderror">
-                                          <option value="0">Administrator</option>
-                                          <option value="1">Kepala Sekolah</option>
-                                        </select>
-                                        @error('role')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <hr>
+                                  
+                                    <div class="form-group">
+                                        <div class="col">
+                                        <label for="role">{{ __('Peran') }}</label>
+                                        
+                                             <select name="role" class="form-control @error('role') is-invalid @enderror">
+                                              <option value="0">Administrator</option>
+                                              <option value="1">Kepala Sekolah</option>
+                                            </select>
+                                            @error('role')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                            </div>
+                                    </div> 
+                                      </div>
+                                      <div class="col">
+                                            <div class="form-group">
+                                                  <label for="customFile">Foto</label> <br>
+                                                  <img id='img-upload' class="img-fluid img-thumbnail mb-1" src="{{asset('images/dummy.png')}}" alt="" style="width: 60%"><br>
+                                                        <input type="file" id="imgInp" name="foto" class="form-control">
+                                                    </span>
+                                                    <input type="hidden" class="form-control" readonly>
+                                            </div>
+                                          </div>
+                                  </div>
+                                
+                                      <hr>
           
                                   <div class="form-group row">
                                       <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -174,8 +251,8 @@
                                 <div class="p-2">
                                   <form role="form"  action="{{ route('pengguna.ganti',$item->id_user) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                  <div class="form-group row">
-                                      <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                  {{-- <div class="form-group row">
+                                      <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password Lama') }}</label>
           
                                       <div class="col-md-6">
                                           <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -194,7 +271,20 @@
                                       <div class="col-md-6">
                                           <input type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                       </div>
-                                  </div>
+                                  </div> --}}
+                                  <div class="form-group row">
+                                    <label for="password_baru" class="col-md-4 col-form-label text-md-right">{{ __('Password Baru') }}</label>
+        
+                                    <div class="col-md-6">
+                                        <input type="password" class="form-control @error('password_baru') is-invalid @enderror" name="password_baru" required autocomplete="new-password">
+        
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
 
                                   <div class="form-group row mb-0">
                                       <div class="col-md-6 offset-md-4">
@@ -249,9 +339,11 @@
                                           @enderror
                                       </div>
                                   </div>
-
+                                  @if (Auth::user()->id_user == $item->id_user)
+                                  <input type="hidden" name="role" value="{{$item->role}}">
+                                  @else
                                   <div class="form-group row">
-                                    <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Pesan') }}</label>
+                                    <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Peran') }}</label>
         
                                     <div class="col-md-6">
                                          <select name="role" class="form-control @error('role') is-invalid @enderror">
@@ -265,11 +357,42 @@
                                         @enderror
                                     </div>
                                 </div>
+                                @endif
+                
 
-                                <hr>
-          
-                                  <div class="form-group row">
-                                      <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                  <div class="form-group row mb-0">
+                                      <div class="col-md-6 offset-md-4">
+                                          <button type="submit" class="btn btn-primary">
+                                              {{ __('Simpan') }}
+                                          </button>
+                                      </div>
+                                  </div>
+                                  </form>
+                              </div>
+                            </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div>
+                  @empty
+                      
+                  @endforelse
+
+                  @forelse ($gurus as $item)
+                  <div id="ganti-{{$item->id_user}}" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myCenterModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myCenterModalLabel">Ganti Password Pengguna {{$item->name}}</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="card-box">
+                                <div class="p-2">
+                                  <form role="form"  action="{{ route('pengguna.ganti',$item->id_user) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                  {{-- <div class="form-group row">
+                                      <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password Lama') }}</label>
           
                                       <div class="col-md-6">
                                           <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -288,7 +411,77 @@
                                       <div class="col-md-6">
                                           <input type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                       </div>
+                                  </div> --}}
+                                  <div class="form-group row">
+                                    <label for="password_baru" class="col-md-4 col-form-label text-md-right">{{ __('Password Baru') }}</label>
+        
+                                    <div class="col-md-6">
+                                        <input type="password" class="form-control @error('password_baru') is-invalid @enderror" name="password_baru" required autocomplete="new-password">
+        
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                  <div class="form-group row mb-0">
+                                      <div class="col-md-6 offset-md-4">
+                                          <button type="submit" class="btn btn-primary">
+                                              {{ __('Simpan') }}
+                                          </button>
+                                      </div>
                                   </div>
+                                  </form>
+                              </div>
+                            </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div>
+                  <div id="edit-{{$item->id_user}}" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myCenterModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myCenterModalLabel">Edit Data</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="card-box">
+                                <div class="p-2">
+                                  <form role="form" action="{{ route('pengguna.update',$item->id_user) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group row">
+                                      <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nama') }}</label>
+          
+                                      <div class="col-md-6">
+                                          <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $item->name }}" required autocomplete="name" autofocus>
+          
+                                          @error('name')
+                                              <span class="invalid-feedback" role="alert">
+                                                  <strong>{{ $message }}</strong>
+                                              </span>
+                                          @enderror
+                                      </div>
+                                  </div>
+          
+                                  <div class="form-group row">
+                                      <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Alamat Email') }}</label>
+          
+                                      <div class="col-md-6">
+                                          <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $item->email }}" required autocomplete="email">
+          
+                                          @error('email')
+                                              <span class="invalid-feedback" role="alert">
+                                                  <strong>{{ $message }}</strong>
+                                              </span>
+                                          @enderror
+                                      </div>
+                                  </div>
+                                  <input type="hidden" name="role" value="{{$item->role}}">
+                                </div>
+                
 
                                   <div class="form-group row mb-0">
                                       <div class="col-md-6 offset-md-4">
