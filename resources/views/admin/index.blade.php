@@ -26,22 +26,21 @@
                                 </div>
 
                                 <h4 class="header-title mt-0 mb-3">Informasi Terkini</h4>
-
+                                @forelse ($agenda as $item)
                                 <div class="alert alert-info fade show mb-1">
-                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                  <h3 class="alert-heading"> <div class="badge badge-pill badge-purple"><i class="mdi mdi-teach"></i><strong>Misri Harini, A.Md</strong></div> </h3>
-                                  <p>Telah Mengisi Jurnal Mengajar Hari Ini Tanggal [ <strong>30-06-2021</strong> ] Mata Pelajaran <strong>Bahasa Indonesia</strong></p>
+                                  <form action="{{ route('status.agenda',$item->id_agenda) }}"  method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                  <button type="submit" class="close">×</button>
+                                  </form>
+                                  <h3 class="alert-heading"> <div class="badge badge-pill badge-purple"><i class="mdi mdi-teach"></i><strong>{{$item->guru->gelar_depan.' '.$item->guru->nama_depan.' '.$item->guru->nama_belakang.', '.$item->guru->gelar_belakang}}</strong></div> </h3>
+                                  <p>Telah Mengisi Jurnal Mengajar Hari Ini Tanggal [ <strong>{{$item->created_at->format('d-m-Y')}}</strong> ] Mata Pelajaran <strong>{{$item->mapelGuru->mapel->mata_pelajaran}} | {{$item->mapelGuru->kelas->kelas}}</strong></p>
                                 </div>
-
-                                <div class="alert alert-info fade show mb-1">
-                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                  <h3 class="alert-heading"> <div class="badge badge-pill badge-purple"><i class="mdi mdi-teach"></i><strong>Darmansyah, SE</strong></div> </h3>
-                                  <p>Telah Mengisi Jurnal Mengajar Hari Ini Tanggal [ <strong>30-06-2021</strong> ] Mata Pelajaran <strong>Akuntansi</strong></p>
-                                  {{-- <p class="mb-0 pt-1">
-                                      <button type="button" class="btn btn-info waves-effect waves-light mr-1">Wanna do this</button>
-                                      <button type="button" class="btn btn-light waves-effect">Or do this</button>
-                                  </p> --}}
-                              </div>
+                                @empty
+                                <div class="alert alert-success fade show mb-1">
+                                  <h3 class="alert-heading"> <div class="badge badge-pill badge-success"><i class="mdi mdi-teach"></i><strong>Tidak Ada</strong></div> </h3>
+                                  <p>Belum Ada Guru Yang Melakukan Pengisian Jurnal Mengajar</p>
+                                </div>
+                                @endforelse
                             </div>
                           </div>
                           <div class="col-xl-6">
@@ -70,7 +69,7 @@
                                       <div class="col-xl-6 col-lg-6">
                                         <div class="card-box widget-user bg-info">
                                           <div class="text-center">
-                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">{{$agenda->count()}}</h1>
+                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">{{$agen->count()}}</h1>
                                               <h5 class="text-white"><i class="mdi mdi-calendar"></i> Jurnal Mengajar <br> Hari Ini</h5>
                                           </div>
                                         </div>

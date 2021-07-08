@@ -89,6 +89,7 @@ class KegiatanGuruController extends Controller
             'pemecahan' => $r->pemecahan,  
             'absen' => $r->absensi,  
             'keterangan' => $r->keterangan,  
+            'created_at' => $r->tanggal,  
         ]);
 
         Session::flash('success', 'Jurnal Kegiatan Berhasil Ditambahkan');
@@ -132,6 +133,7 @@ class KegiatanGuruController extends Controller
         $agenda->pemecahan = $r->pemecahan;
         $agenda->absen = $r->absensi;
         $agenda->keterangan = $r->keterangan;
+        $agenda->created_at = $r->tanggal;
         $agenda->save();
 
         Session::flash('success', 'Jurnal Kegiatan Berhasil Diperbarui');

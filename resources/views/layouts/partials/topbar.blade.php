@@ -100,7 +100,7 @@
           role="button" aria-haspopup="false" aria-expanded="false">
           <img src="{{asset('gurus/'.Auth::user()->foto)}}" alt="user-image" class="rounded-circle">
           <span class="pro-user-name ml-1">
-              Admin <i class="mdi mdi-chevron-down"></i>
+            {{Auth::user()->name}} <i class="mdi mdi-chevron-down"></i>
           </span>
       </a>
       <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -110,10 +110,24 @@
           </div>
 
           <!-- item-->
+          @if (Auth::user()->role == 0)
           <a href="{{route('admin.detail',Auth::user()->id_user)}}" class="dropdown-item notify-item">
-              <i class="fe-user"></i>
-              <span>Akun Saya</span>
-          </a>
+            <i class="fe-user"></i>
+            <span>Akun Saya</span>
+        </a>
+          @elseif (Auth::user()->role == 1)
+          <a href="{{route('kepsek.detail',Auth::user()->id_user)}}" class="dropdown-item notify-item">
+            <i class="fe-user"></i>
+            <span>Akun Saya</span>
+        </a>
+        @elseif (Auth::user()->role == 2)
+          <a href="{{route('guru.detail',Auth::user()->id_user)}}" class="dropdown-item notify-item">
+            <i class="fe-user"></i>
+            <span>Akun Saya</span>
+        </a>
+              
+          @endif
+          
 
           <div class="dropdown-divider"></div>
 

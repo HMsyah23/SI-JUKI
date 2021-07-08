@@ -29,14 +29,23 @@ class HomeController extends Controller
     {
         $agendas = Agenda::all();
         $gurus   = Guru::all();
-        $agenda  = Agenda::where('created_at',Carbon::today())->get();
-        return view('admin.index',compact('agendas','agenda','gurus'));
+        $agen  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
+        $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status',1)->get();
+        return view('admin.index',compact('agendas','agenda','gurus','agen'));
     }
 
     public function guru()
     {
         $periode = TahunAjaran::where('status',1)->first();
         return view('guru.index',compact('periode'));
+    }
+
+    public function agenda($id)
+    {
+        $agenda = Agenda::find($id);
+        $agenda->status = 0;
+        $agenda->save();
+        return redirect()->back();
     }
 
 }

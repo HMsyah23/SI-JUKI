@@ -13,7 +13,7 @@
                 <a href="{{route('guru.jurnal')}}" class="btn btn-secondary btn-rounded w-md waves-effect waves-light mb-3"><i class="fas fa-arrow-left"></i> Kembali</a>      
             </div>
               <p class="sub-header">
-                  Kegiatan Hari {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}}
+                  Kegiatan Hari {{\Carbon\Carbon::now()->timezone('Asia/Singapore')->isoFormat('dddd, DD MMMM Y')}}
               </p>
 
               <div class="row">
@@ -24,7 +24,7 @@
                             <div class="form-group row">
                               <label class="col-md-2 col-form-label" for="example-date">Tanggal</label>
                               <div class="col-md-10">
-                                  <input class="form-control" id="example-date" type="date" name="tanggal" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" >
+                                  <input class="form-control" id="example-date" type="date" name="tanggal" value="{{ \Carbon\Carbon::now()->timezone('Asia/Singapore')->format('Y-m-d') }}" >
                               </div>
                           </div>
 

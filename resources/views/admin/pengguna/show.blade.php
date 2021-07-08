@@ -15,7 +15,13 @@
 
                                         <div class="profile-info-detail overflow-hidden">
                                             <h4 class="m-0">{{Auth::user()->name}}</h4>
+                                            @if (Auth::user()->role == 0)
                                             <p class="text-muted"><i>Administrator</i></p>
+                                            @elseif(Auth::user()->role == 1)
+                                            <p class="text-muted"><i>Kepala Sekolah</i></p>
+                                            @else
+                                            <p class="text-muted"><i>Guru</i></p>
+                                            @endif
 
                                         </div>
 

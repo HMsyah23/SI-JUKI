@@ -6,7 +6,7 @@
           class="rounded-circle img-thumbnail avatar-md">
       <div class="dropdown">
           <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-toggle="dropdown"
-              aria-expanded="false">Admin</a>
+              aria-expanded="false">{{Auth::user()->name}}</a>
           <div class="dropdown-menu user-pro-dropdown">
 
               <!-- item-->
@@ -23,12 +23,31 @@
 
           </div>
       </div>
-      <p class="text-muted">Admin Head</p>
+      <p class="text-muted">
+          @if (Auth::user()->role == 0)
+            Administrator    
+          @elseif(Auth::user()->role == 1)
+            Kepala Sekolah
+          @else
+            Guru    
+          @endif
+      </p>
       <ul class="list-inline">
           <li class="list-inline-item">
-              <a href="{{route('admin.detail',Auth::user()->id_user)}}" class="text-muted">
-                  <i class="mdi mdi-cog"></i>
-              </a>
+            @if (Auth::user()->role == 0)
+            <a href="{{route('admin.detail',Auth::user()->id_user)}}" class="text-muted">
+                <i class="mdi mdi-cog"></i>
+            </a> 
+          @elseif(Auth::user()->role == 1)
+          <a href="{{route('kepsek.detail',Auth::user()->id_user)}}" class="text-muted">
+            <i class="mdi mdi-cog"></i>
+        </a>
+          @else
+          <a href="{{route('guru.detail',Auth::user()->id_user)}}" class="text-muted">
+            <i class="mdi mdi-cog"></i>
+        </a>   
+          @endif
+              
           </li>
 
           <li class="list-inline-item">
@@ -131,12 +150,12 @@
                     <span> Dashboard </span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{route('guru.ganti')}}">
                     <i class="mdi mdi-sync"></i>
                     <span> Ganti Password </span>
                 </a>
-            </li>
+            </li> --}}
             <li class="menu-title">Data Jurnal Mengajar</li>
             
             <li>
@@ -178,17 +197,17 @@
             </a>
         </li>
         <li>
-        <a href="{{route('kepsek.agenda')}}">
+        <a href="{{route('kepsek.jurnal')}}">
             <i class="mdi mdi-calendar"></i>
             <span> History Jurnal Mengajar </span>
         </a>
         </li>
-        <li>
+        {{-- <li>
         <a href="{{route('kepsek.berkas')}}">
             <i class="mdi mdi-calendar-month-outline"></i>
-            <span> Bank Data Jurnal Mengajar </span>
+            <span> Bank Jurnal Mengajar </span>
         </a>
-        </li>
+        </li> --}}
         <li>
             <a href="{{route('kepsek.laporan')}}">
                 <i class="mdi mdi-file-multiple"></i>

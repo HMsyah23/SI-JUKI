@@ -36,74 +36,100 @@
                                         <th>Tanggal</th>
                                         <th>Mata Pelajaran</th>
                                         <th>Materi</th>
-                                        <th>Absen</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>30-06-2021</td>
-                                        <td>Bahasa Indonesia</td>
-                                        <td>
-                                          <p>Pertemuan Pertama :
-                                            <ol>
-                                              <li>Pengenalan Kalimat Imbuhan</li>
-                                              <li>Belajar Membaut Pantun</li>
-                                            </ol>
-                                          </p>
-                                        </td>
-                                        <td>
-                                          40 Siswa
-                                        </td>
-                                        <td>
-                                          Seluruh Siswa Hadir
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="profile1">
-                                  <table id="responsive-datatable" class="table table-bordered table-bordered dt-responsive nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Mata Pelajaran</th>
-                                        <th>Materi</th>
+                                        <th>Hambatan</th>
+                                        <th>Pemecahan</th>
                                         <th>Absen</th>
                                         <th>Keterangan</th>
                                         <th>Opsi</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @forelse ($agenda as $item)
                                     <tr>
-                                        <td>1</td>
-                                        <td>30-06-2021</td>
-                                        <td>Bahasa Indonesia</td>
+                                      <td>{{$loop->iteration}}</td>
+                                      <td>{{$item->created_at->isoFormat('dddd, DD/MM/Y')}}</td>
+                                      <td>{{$item->mapelGuru->mapel->mata_pelajaran}}</td>
+                                      <td>
+                                        {!! $item->materi !!}
+                                      </td>
+                                      <td>
+                                        {!! $item->hambatan !!}
+                                      </td>
+                                      <td>
+                                        {!! $item->pemecahan !!}
+                                      </td>
+                                      <td>
+                                        <strong>{{$item->absen}}</strong>/{{$item->mapelGuru->kelas->jumlah_siswa}} Siswa
+                                      </td>
+                                      <td>
+                                        {{$item->keterangan}}
+                                      </td>
+                                      <td>
+                                        <div class="btn-group mb-1">
+                                          {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
+                                          <button type="button" class="btn btn-info waves-effect"><i class="fas fa-eye"></i></button>
+                                          <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                      </td>
+                                  </tr>
+                                    @empty
+                                        <tr>
+                                          <td colspan="6" class="text-center"><strong>Belum Ada Data</strong></td>
+                                        </tr>
+                                    @endforelse
+                                    </tbody>
+                                </table>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="profile1">
+                                  <table id="responsive-datatable" class="table table-bordered table-bordered nowrap">
+                                    <thead>
+                                      <tr>
+                                          <th>No</th>
+                                          <th>Tanggal</th>
+                                          <th>Mata Pelajaran</th>
+                                          <th>Materi</th>
+                                          <th>Hambatan</th>
+                                          <th>Pemecahan</th>
+                                          <th>Absen</th>
+                                          <th>Keterangan</th>
+                                          <th>Opsi</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      @forelse ($agendas as $item)
+                                      <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$item->created_at->isoFormat('dddd, DD/MM/Y')}}</td>
+                                        <td>{{$item->mapelGuru->mapel->mata_pelajaran}}</td>
                                         <td>
-                                          <p>Pertemuan Pertama :
-                                            <ol>
-                                              <li>Pengenalan Kalimat Imbuhan</li>
-                                              <li>Belajar Membaut Pantun</li>
-                                            </ol>
-                                          </p>
+                                          {!! $item->materi !!}
                                         </td>
                                         <td>
-                                          40 Siswa
+                                          {!! $item->hambatan !!}
                                         </td>
                                         <td>
-                                          Seluruh Siswa Hadir
+                                          {!! $item->pemecahan !!}
+                                        </td>
+                                        <td>
+                                          <strong>{{$item->absen}}</strong>/{{$item->mapelGuru->kelas->jumlah_siswa}} Siswa
+                                        </td>
+                                        <td>
+                                          {{$item->keterangan}}
                                         </td>
                                         <td>
                                           <div class="btn-group mb-1">
                                             {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <button type="button" class="btn btn-warning text-dark waves-effect"><i class="fas fa-edit"></i></button>
+                                            <button type="button" class="btn btn-info waves-effect"><i class="fas fa-eye"></i></button>
                                             <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
                                           </div>
                                         </td>
                                     </tr>
-                                    </tbody>
+                                      @empty
+                                          <tr>
+                                            <td colspan="6" class="text-center"><strong>Belum Ada Data</strong></td>
+                                          </tr>
+                                      @endforelse
+                                      </tbody>
                                 </table>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="messages1">
@@ -151,14 +177,14 @@
                   <!-- container-fluid -->
 @endsection
 
-@push('css')
+@section('css')
   <link href="{{asset('libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
-@endpush
+@endsection
 
-@push('js')
+@section('js')
     <!-- third party js -->
     <script src="{{asset('libs/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('libs/datatables/dataTables.bootstrap4.js')}}"></script>
@@ -176,5 +202,10 @@
     <!-- third party js ends -->
 
     <!-- Datatables init -->
+    <script>
+      $('#responsive-datatable1').DataTable( {
+          responsive: true
+      } );
+    </script>
     <script src="{{asset('js/pages/datatables.init.js')}}"></script>
-@endpush
+@endsection

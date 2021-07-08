@@ -19,21 +19,12 @@
                               </tr>
                               </thead>
                               <tbody>
+                              @forelse ($agenda as $key => $item)
                               <tr>
-                                  <td>1</td>
-                                  <td>Muhammad Arwani, S.Ag</td>
-                                  <td><strong class="text-danger">0</strong> Kali Mengisi Agenda Hari Ini</td>
-                                  <td>
-                                    <div class="btn-group mb-1">
-                                      {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                      <button type="button" class="btn btn-purple waves-effect"><i class="mdi mdi-book-search"></i> Lihat Detail</button>
-                                    </div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>Fitri Laila Nur,S.Pd</td>
-                                <td><strong class="text-danger">0</strong> Kali Mengisi Agenda Hari Ini</td>
+                                <td>{{$loop->iteration}}</td>
+                                {{-- <td>{{$item->mapelGuru->guru->gelar_depan.' '.$item->mapelGuru->guru->nama_depan.''.$item->mapelGuru->guru->nama_belakang.', '.$item->mapelGuru->guru->gelar_belakang}}</td> --}}
+                                <td>{{$item[0]->guru->gelar_depan.' '.$item[0]->guru->nama_depan.''.$item[0]->guru->nama_belakang.', '.$item[0]->guru->gelar_belakang}}</td>
+                                <td><strong class="text-danger">{{$item->count()}}</strong> Kali Mengisi Agenda Hari Ini</td>
                                 <td>
                                   <div class="btn-group mb-1">
                                     {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
@@ -41,17 +32,9 @@
                                   </div>
                                 </td>
                             </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>Misri Harini, A.Md</td>
-                              <td><strong class="text-danger">0</strong> Kali Mengisi Agenda Hari Ini</td>
-                              <td>
-                                <div class="btn-group mb-1">
-                                  {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                  <button type="button" class="btn btn-purple waves-effect"><i class="mdi mdi-book-search"></i> Lihat Detail</button>
-                                </div>
-                              </td>
-                          </tr>
+                              @empty
+                                  
+                              @endforelse
                               </tbody>
                           </table>
                             </div>
