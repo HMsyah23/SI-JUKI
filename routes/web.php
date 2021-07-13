@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
 
     //Guru
     Route::get('/master/guru','GuruController@index')->name('admin.guru');
+    Route::get('/master/guru/{id}','GuruController@show')->name('guru.show');
     Route::post('/master/guru','GuruController@store')->name('guru.store');
     Route::delete('/master/guru/{id}','GuruController@destroy')->name('guru.delete');
     Route::post('/master/guru/update/{id}','GuruController@update')->name('guru.update');
@@ -65,12 +66,12 @@ Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
     Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('pengguna.ganti');
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('pengguna.update');
 
+    Route::get('/getInformasiTerkini','HomeController@getInformasi')->name('info.terkini');
+
     Route::get('/berkas', function () {
         return view('admin.berkas.index');
     })->name('admin.berkas');
-    Route::get('/agenda', function () {
-        return view('admin.agenda.index');
-    })->name('admin.agenda');
+    Route::get('/agenda','AgendaController@index')->name('admin.agenda');
 });
 
 Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
@@ -87,7 +88,7 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
 
     Route::get('/master/pengguna/{id}','PenggunaController@show')->name('guru.detail');
     Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('guru.ganti');
-    Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('guru.update');
+    Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('guru.update.data');
 
 
     Route::get('/ganti-password', function () {
@@ -114,9 +115,14 @@ Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek'], function () {
     Route::get('/master/pengguna/{id}','PenggunaController@show')->name('kepsek.detail');
     Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('kepsek.ganti');
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('kepsek.update');
+    Route::get('/komentar/{id}','KegiatanKepsekController@komentar')->name('kepsek.komentar');
+    Route::post('/komentar/{id}','KegiatanKepsekController@komentarStore')->name('komentar.store');
 
     Route::get('/jurnal','KegiatanKepsekController@jurnal')->name('kepsek.jurnal');
     Route::get('/laporan','KegiatanKepsekController@laporan')->name('kepsek.laporan');
+    Route::get('/laporan/semua/{id}','KegiatanKepsekController@laporanSemua')->name('kepsek.laporan.semua');
+    Route::get('/laporan/{id}','KegiatanKepsekController@laporanDetail')->name('kepsek.laporan.detail');
+
 
 
     Route::get('/master/tahun-ajaran', function () {
@@ -143,10 +149,17 @@ Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek'], function () {
         return view('kepsek.berkas.index');
     })->name('kepsek.berkas');
 
+    Route::get('/getInformasiTerkini','HomeController@getInformasi')->name('info.terkini');
+
 });
 
 Route::post('/agenda/stat/{id}', 'HomeController@agenda')->name('status.agenda');
 
+    // Laporan
+    Route::get('/laporan/harian','LaporanController@laporanHarian')->name('laporan.harian');
+    Route::get('/laporan/harian/{id}','LaporanController@laporanDetail')->name('laporan.harian.detail');
+    Route::get('/laporan/semua','LaporanController@laporanSemua')->name('laporan.semua');
+    Route::get('/laporan/pendamping/{id}','LaporanController@laporanPendamping')->name('laporan.pendamping');
 
 Auth::routes();
 Route::get('auth/logout', 'Auth\LoginController@logout')->name('auth.logout');

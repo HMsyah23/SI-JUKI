@@ -78,6 +78,7 @@ class KegiatanGuruController extends Controller
         $id_mapel_guru = MapelGuru::where('id_guru',auth()->user()->guru->id_guru)
                             ->where('id_mapel',$r->id_mapel)
                             ->where('id_kelas',$r->id_kelas)->first('id_mapel_guru')->id_mapel_guru;
+        $stat = collect(['admin' =>1,'kepsek' => 1]);
         
         Agenda::create([
             'id_guru' => auth()->user()->guru->id_guru,  
@@ -90,6 +91,7 @@ class KegiatanGuruController extends Controller
             'absen' => $r->absensi,  
             'keterangan' => $r->keterangan,  
             'created_at' => $r->tanggal,  
+            'status' => json_encode($stat),
         ]);
 
         Session::flash('success', 'Jurnal Kegiatan Berhasil Ditambahkan');

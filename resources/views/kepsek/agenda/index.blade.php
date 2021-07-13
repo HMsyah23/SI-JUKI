@@ -29,6 +29,12 @@
 
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="home1">
+                                  <div class="row mb-1">
+                                    <div class="col d-flex justify-content-between">
+                                      <span>Jurnal Kegiatan Pada Hari : {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}}</span>
+                                      <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan Harian</button>
+                                    </div>
+                                  </div> 
                                   <table id="responsive-datatable1" class="table table-bordered table-bordered dt-responsive nowrap">
                                     <thead>
                                     <tr>
@@ -48,7 +54,11 @@
                                     <tr>
                                       <td>{{$loop->iteration}}</td>
                                       <td>{{$item->created_at->isoFormat('dddd, DD/MM/Y')}}</td>
-                                      <td>{{$item->mapelGuru->mapel->mata_pelajaran}}</td>
+                                      <td>
+                                        <strong>{{$item->mapelGuru->mapel->mata_pelajaran}}</strong><br>
+                                              Nama Guru : <strong>{{$item->guru->gelar_depan.' '.$item->guru->nama_depan.' '.$item->guru->nama_belakang.' '.$item->guru->gelar_belakang}}</strong> <br>
+                                              Kelas : <strong>{{$item->mapelGuru->kelas->kelas}}</strong>  
+                                      </td>
                                       <td>
                                         {!! $item->materi !!}
                                       </td>
@@ -66,8 +76,10 @@
                                       </td>
                                       <td>
                                         <div class="btn-group mb-1">
-                                          {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                          <button type="button" class="btn btn-info waves-effect"><i class="fas fa-eye"></i></button>
+                                          @if ($item->saran != null)
+                                            <a href="#" type="button" class="btn btn-purple waves-effect"><i class="fas fa-print"></i> Cetak</a>  
+                                          @endif
+                                          <a href="{{route('kepsek.komentar',$item->id_agenda)}}" type="button" class="btn btn-info waves-effect"><i class="fas fa-edit"></i>Berikan Saran/Komentar</a>
                                           <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
                                         </div>
                                       </td>
@@ -81,15 +93,18 @@
                                 </table>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="profile1">
-                                  <table id="responsive-datatable" class="table table-bordered table-bordered nowrap">
+                                  <div class="col-12 mb-1 d-flex justify-content-between">
+                                    <span>Semua Laporan</span>
+                                    <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan</button>
+                                  </div>
+                                  <div class="col">
+                                  <table id="responsive-datatable" class="table table-bordered ">
                                     <thead>
                                       <tr>
                                           <th>No</th>
                                           <th>Tanggal</th>
                                           <th>Mata Pelajaran</th>
                                           <th>Materi</th>
-                                          <th>Hambatan</th>
-                                          <th>Pemecahan</th>
                                           <th>Absen</th>
                                           <th>Keterangan</th>
                                           <th>Opsi</th>
@@ -105,12 +120,6 @@
                                           {!! $item->materi !!}
                                         </td>
                                         <td>
-                                          {!! $item->hambatan !!}
-                                        </td>
-                                        <td>
-                                          {!! $item->pemecahan !!}
-                                        </td>
-                                        <td>
                                           <strong>{{$item->absen}}</strong>/{{$item->mapelGuru->kelas->jumlah_siswa}} Siswa
                                         </td>
                                         <td>
@@ -118,8 +127,8 @@
                                         </td>
                                         <td>
                                           <div class="btn-group mb-1">
-                                            {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <button type="button" class="btn btn-info waves-effect"><i class="fas fa-eye"></i></button>
+                                              <a href="#" type="button" class="btn btn-purple waves-effect"><i class="fas fa-print"></i></a>  
+                                            <a href="{{route('kepsek.komentar',$item->id_agenda)}}" type="button" class="btn btn-info waves-effect"><i class="fas fa-eye"></i></a>
                                             <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
                                           </div>
                                         </td>
@@ -132,31 +141,9 @@
                                       </tbody>
                                 </table>
                                 </div>
-                                <div role="tabpanel" class="tab-pane fade" id="messages1">
-                                    <p class="mb-0">Etsy mixtape wayfarers, ethical
-                                        wes anderson tofu before they sold out mcsweeney's organic lomo
-                                        retro fanny pack lo-fi farm-to-table readymade. Messenger bag
-                                        gentrify pitchfork tattooed craft beer, iphone skateboard locavore
-                                        carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
-                                        irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg
-                                        banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy
-                                        retro mlkshk vice blog. Scenester cred you probably haven't heard of
-                                        them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu
-                                        synth chambray yr.</p>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="settings1">
-                                    <p class="mb-0">Trust fund seitan letterpress,
-                                        keytar raw denim keffiyeh etsy art party before they sold out master
-                                        cleanse gluten-free squid scenester freegan cosby sweater. Fanny
-                                        pack portland seitan DIY, art party locavore wolf cliche high life
-                                        echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before
-                                        they sold out farm-to-table VHS viral locavore cosby sweater. Lomo
-                                        wolf viral, mustache readymade thundercats keffiyeh craft beer marfa
-                                        ethical. Wolf salvia freegan, sartorial keffiyeh echo park
-                                        vegan.</p>
-                                </div>
                             </div>
-                                
+                                </div>
+                            </div> 
                             </div>
                         </div>
                     </div>

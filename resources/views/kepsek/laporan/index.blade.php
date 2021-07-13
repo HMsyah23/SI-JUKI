@@ -23,17 +23,21 @@
                               <tr>
                                 <td>{{$loop->iteration}}</td>
                                 {{-- <td>{{$item->mapelGuru->guru->gelar_depan.' '.$item->mapelGuru->guru->nama_depan.''.$item->mapelGuru->guru->nama_belakang.', '.$item->mapelGuru->guru->gelar_belakang}}</td> --}}
-                                <td>{{$item[0]->guru->gelar_depan.' '.$item[0]->guru->nama_depan.''.$item[0]->guru->nama_belakang.', '.$item[0]->guru->gelar_belakang}}</td>
+                                <td>{{$item[0]->guru->gelar_depan.' '.$item[0]->guru->nama_depan.' '.$item[0]->guru->nama_belakang.', '.$item[0]->guru->gelar_belakang}}</td>
                                 <td><strong class="text-danger">{{$item->count()}}</strong> Kali Mengisi Agenda Hari Ini</td>
                                 <td>
                                   <div class="btn-group mb-1">
                                     {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                    <button type="button" class="btn btn-purple waves-effect"><i class="mdi mdi-book-search"></i> Lihat Detail</button>
+                                    <a href="{{route('kepsek.laporan.detail',$item[0]->id_agenda)}}" type="button" class="btn btn-purple waves-effect"><i class="mdi mdi-book-search"></i> Lihat Detail</a>
                                   </div>
                                 </td>
                             </tr>
                               @empty
-                                  
+                                  <tr>
+                                    <th colspan="4" class="text-center">
+                                      Belum Ada Data
+                                    </th>
+                                  </tr>
                               @endforelse
                               </tbody>
                           </table>

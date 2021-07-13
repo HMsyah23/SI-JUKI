@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Model\Agenda;
 use App\Model\Guru;
 use App\Model\TahunAjaran;
@@ -20,11 +21,15 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+    public function getInformasi(){
+        if (Auth::user()->role == 0) {
+            $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status', 'like', '%"admin":1%')->get();
+        } else {
+            $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status', 'like', '%"kepsek":1%')->get();
+        }
+        return view('admin.getInformasi',compact('agenda'));
+    }
+
     public function admin()
     {
         $agendas = Agenda::all();
@@ -43,7 +48,13 @@ class HomeController extends Controller
     public function agenda($id)
     {
         $agenda = Agenda::find($id);
-        $agenda->status = 0;
+        $stat = json_decode($agenda->status, true);
+        if (Auth::user()->role == 0) {
+            $stat['admin'] = 0;
+        } else {
+            $stat['kepsek'] = 0;
+        }
+        $agenda->status = json_encode($stat); 
         $agenda->save();
         return redirect()->back();
     }

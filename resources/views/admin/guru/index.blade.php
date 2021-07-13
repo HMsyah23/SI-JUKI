@@ -40,15 +40,33 @@
                                         <td>
                                           <div class="btn-group mb-1">
                                             {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <button type="button" class="btn btn-warning waves-effect"><i class="fas fa-pen"></i> Edit</button>
-                                            <form action="{{ route('guru.delete',$item->id_guru) }}"  method="POST" enctype="multipart/form-data">
-                                              @csrf
-                                              @method('DELETE')
-                                              <button type="submit" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
-                                              </form>
+                                            <a href="{{route('guru.show',$item->id_guru)}}" type="button" class="btn btn-warning waves-effect"><i class="fas fa-pen"></i> Edit</a>
+                                            <button type="button" data-toggle="modal" data-target="#staticBackdrop-{{$item->id_guru}}" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+
+            
                                           </div>
                                         </td>
                                     </tr>
+                                    <div class="modal fade" id="staticBackdrop-{{$item->id_guru}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                          <div class="modal-header bg-danger">
+                                              <h5 class="modal-title text-white" id="staticBackdropLabel">Yakin Ingin Menghapus Data Guru {{ $item->gelar_depan.' '.$item->nama_depan.' '.$item->nama_belakang.' '.$item->gelar_belakang }} ?</h5>
+                                              <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                              </button>
+                                          </div>
+                                          <div class="modal-footer justify-content-center">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                              <form action="{{ route('guru.delete',$item->id_guru) }}"  method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                              <button type="submit" class="btn btn-danger">Ya</button>
+                                            </form>
+                                          </div>
+                                      </div>
+                                      </div>
+                                  </div>
                                       @empty
                                           <tr>
                                             <td colspan="6" class="text-center"><strong>Belum Ada Data</strong></td>
@@ -185,7 +203,7 @@
                                         <div class="col">
                                           <div class="form-group">
                                             <label for="tanggal_lahir">Tanggal Lahir</label>
-                                            <input type="date" name="tanggal_lahir" class="form-control" placeholder="Masukkan Tanggal Lahir" required>
+                                            <input type="date" name="tanggal_lahir" class="form-control" placeholder="Masukkan Tanggal Lahir" value="{{\Carbon\Carbon::parse(old('tanggal_lahir'))->format('Y-m-d')}}" required>
                                           </div>
                                         </div>
                                     </div>
@@ -233,7 +251,7 @@
                                       <div class="col-sm-12 col-lg-6">
                                         <div class="form-group">
                                             <label for="simpleinput">Tanggal Lulus</label>
-                                              <input type="date" name="tanggal_lulus" class="form-control" placeholder="Masukkan Tanggal Lulus" required>
+                                              <input type="date" name="tanggal_lulus" class="form-control" placeholder="Masukkan Tanggal Lulus" value="{{\Carbon\Carbon::parse(old('tanggal_lulus'))->format('Y-m-d') ?? \Carbon\Carbon::now()->format('Y-m-d')}}" required>
                                           </div>
                                         </div>
                                   </div>

@@ -38,6 +38,12 @@ class MataPelajaranController extends Controller
 
     public function destroy($id)
     {
+        $mapel = MataPelajaran::find($id);
+        if($mapel->mapel != null) {
+            Session::flash('error', 'Data Mata Pelajaran Memiliki Relasi Terkait');
+            return redirect()->back();
+        }
+
         MataPelajaran::destroy($id);
         
         Session::flash('success', 'Data mata Pelajaran Berhasil Dihapus');

@@ -37,8 +37,14 @@ class TahunAjaranController extends Controller
 
     public function destroy($id)
     {
-        if (TahunAjaran::find($id)->status == 1) {
+        $tahun = TahunAjaran::find($id);
+        
+        if ($tahun->status == 1) {
             Session::flash('error', 'Data Tahun Ajaran Sedang Dalam Status Aktif');
+            return redirect()->back();
+        }
+        if($tahun->agenda != null) {
+            Session::flash('error', 'Data Tahun Ajaran Memiliki Relasi Terkait');
             return redirect()->back();
         }
         TahunAjaran::destroy($id);

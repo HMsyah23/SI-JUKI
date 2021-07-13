@@ -44,16 +44,34 @@
                                             <button data-toggle="modal" data-target="#edit-{{$item->id_user}}" type="button" class="btn btn-warning waves-effect text-dark"><i class="fas fa-edit"></i></button>
                                             @if (Auth::user()->id_user == $item->id_user)
                                             @else
-                                            <form action="{{ route('pengguna.delete',$item->id_user) }}"  method="POST" enctype="multipart/form-data">
-                                              @csrf
-                                              @method('DELETE')
-                                              <button type="submit" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
-                                              </form>
+                                            <button type="button" data-toggle="modal" data-target="#staticBackdrop-{{$item->id_user}}" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+
+                                                  
                                             @endif
                                             
                                           </div>
                                         </td>
                                     </tr>
+                                    <div class="modal fade" id="staticBackdrop-{{$item->id_user}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger">
+                                                <h5 class="modal-title text-white" id="staticBackdropLabel">Yakin Ingin Menghapus Data Pengguna {{ $item->name }} ?</h5>
+                                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer justify-content-center">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                                <form action="{{ route('pengguna.delete',$item->id_user) }}"  method="POST" enctype="multipart/form-data">
+                                                  @csrf
+                                                  @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Ya</button>
+                                              </form>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
                                       @empty
                                           <tr>
                                             <td colspan="5" class="text-ceneter">
@@ -73,7 +91,7 @@
                         <div class="col-12">
                             <div class="card-box table-responsive">
                               <div class="d-flex align-items-center justify-content-between">
-                                  <h4 class="mt-0 header-title">Daftar Guru</h4>
+                                  <h4 class="mt-0 header-title">Daftar Guru</h4> <small class="text-muted">(Kata Sandi Default : "password")</small>
                               </div>
                                 <table id="responsive-datatable" class="table table-bordered table-bordered dt-responsive nowrap">
                                     <thead>
@@ -107,11 +125,28 @@
                                             <button data-toggle="modal" data-target="#edit-{{$item->id_user}}" type="button" class="btn btn-warning waves-effect text-dark"><i class="fas fa-edit"></i></button>
                                             @if (Auth::user()->id_user == $item->id_user)
                                             @else
-                                            <form action="{{ route('pengguna.delete',$item->id_user) }}"  method="POST" enctype="multipart/form-data">
-                                              @csrf
-                                              @method('DELETE')
-                                              <button type="submit" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
-                                              </form>
+                                            <button type="button" data-toggle="modal" data-target="#staticBackdrop-{{$item->id_user}}" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+
+                                                  <div class="modal fade" id="staticBackdrop-{{$item->id_user}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title text-white" id="staticBackdropLabel">Yakin Ingin Menghapus Data Pengguna {{ $item->name }} ?</h5>
+                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                                            <form action="{{ route('pengguna.delete',$item->id_user) }}"  method="POST" enctype="multipart/form-data">
+                                                              @csrf
+                                                              @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Ya</button>
+                                                          </form>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
                                             @endif
                                             
                                           </div>

@@ -38,6 +38,11 @@ class StatusKepegawaianController extends Controller
 
     public function destroy($id)
     {
+        $stat = StatusKepegawaian::find($id);
+        if($stat->guru != null) {
+            Session::flash('error', 'Data Status Kepegawaian Memiliki Relasi Terkait');
+            return redirect()->back();
+        }
         StatusKepegawaian::destroy($id);
         
         Session::flash('success', 'Data Status Kepegawaian Berhasil Dihapus');

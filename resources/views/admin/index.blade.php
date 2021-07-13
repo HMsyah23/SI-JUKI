@@ -8,7 +8,7 @@
                       <div class="row">
                           <div class="col-xl-6">
                             <div class="card-box">
-                                <div class="dropdown float-right">
+                                {{-- <div class="dropdown float-right">
                                     <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown"
                                         aria-expanded="false">
                                         <i class="mdi mdi-dots-vertical"></i>
@@ -23,24 +23,10 @@
                                         <!-- item-->
                                         <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <h4 class="header-title mt-0 mb-3">Informasi Terkini</h4>
-                                @forelse ($agenda as $item)
-                                <div class="alert alert-info fade show mb-1">
-                                  <form action="{{ route('status.agenda',$item->id_agenda) }}"  method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                  <button type="submit" class="close">×</button>
-                                  </form>
-                                  <h3 class="alert-heading"> <div class="badge badge-pill badge-purple"><i class="mdi mdi-teach"></i><strong>{{$item->guru->gelar_depan.' '.$item->guru->nama_depan.' '.$item->guru->nama_belakang.', '.$item->guru->gelar_belakang}}</strong></div> </h3>
-                                  <p>Telah Mengisi Jurnal Mengajar Hari Ini Tanggal [ <strong>{{$item->created_at->format('d-m-Y')}}</strong> ] Mata Pelajaran <strong>{{$item->mapelGuru->mapel->mata_pelajaran}} | {{$item->mapelGuru->kelas->kelas}}</strong></p>
-                                </div>
-                                @empty
-                                <div class="alert alert-success fade show mb-1">
-                                  <h3 class="alert-heading"> <div class="badge badge-pill badge-success"><i class="mdi mdi-teach"></i><strong>Tidak Ada</strong></div> </h3>
-                                  <p>Belum Ada Guru Yang Melakukan Pengisian Jurnal Mengajar</p>
-                                </div>
-                                @endforelse
+                                <div id="informasiTerkini"></div>
                             </div>
                           </div>
                           <div class="col-xl-6">
@@ -110,4 +96,47 @@
   
                   </div> 
                   <!-- container-fluid -->
+@endsection
+
+@section('js')
+  <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            cache: false
+        }
+    });
+
+    
+    function loadDataInformasi(){
+        $.ajax({
+            url: 'getInformasiTerkini',
+            success:function(data){
+                $('#informasiTerkini').html(data);
+                // let spinner = document.getElementById("spinner");
+                // spinner.style.visibility = 'hidden';
+            },
+              beforeSend: function(){
+                // let spinner = document.getElementById("spinner");
+                // spinner.style.visibility = 'visible';
+            },
+        })
+    }
+
+    loadDataInformasi();
+
+    $(document).ready(function(){
+    $('#barangSelect').change(function(){
+      var id = $(this).val();
+      let periode = $('#periodeSelect').val();
+      loadDataInformasi();
+    });
+    $('#periodeSelect').change(function(){
+      var id = $('#barangSelect').val();
+      let periode = $(this).val();
+      loadDataInformasi();
+    });
+  });
+
+  </script>
 @endsection

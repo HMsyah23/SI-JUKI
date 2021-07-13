@@ -36,6 +36,11 @@ class JabatanController extends Controller
 
     public function destroy($id)
     {
+        $jabatan = Jabatan::find($id);
+        if($jabatan->guru != null) {
+            Session::flash('error', 'Data Jabatan Memiliki Relasi Terkait');
+            return redirect()->back();
+        }
         Jabatan::destroy($id);
         
         Session::flash('success', 'Data Jabatan Berhasil Dihapus');

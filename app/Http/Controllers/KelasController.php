@@ -40,6 +40,12 @@ class KelasController extends Controller
 
     public function destroy($id)
     {
+        $kelas = Kela::find($id);
+        if($kelas->mapel != null) {
+            Session::flash('error', 'Data Kelas Memiliki Relasi Terkait');
+            return redirect()->back();
+        }
+
         Kela::destroy($id);
         
         Session::flash('success', 'Data Kelas Berhasil Dihapus');

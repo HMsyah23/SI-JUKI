@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title','Dashboard Admin | History Agenda')
-@section('dashboard','Dashboard Admin | History Agenda')
+@section('title','Dashboard Admin | History Jurnal Kegiatan')
+@section('dashboard','Dashboard Admin | History Jurnal Kegiatan')
 @section('content')
                     <!-- Start Content-->
                     <div class="container-fluid">
@@ -9,133 +9,144 @@
                         <div class="col-12">
                             <div class="card-box table-responsive">
                               <div class="d-flex align-items-center justify-content-between">
-                                  <h4 class="mt-0 header-title">History Agenda</h4>
+                                  <h4 class="mt-0 header-title">History Jurnal Kegiatan</h4>
                                   {{-- <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center" ><i class="mdi mdi-plus"></i> Tambah Data</button>       --}}
                               </div>
                               <ul class="nav nav-tabs">
                                 <li class="nav-item">
                                     <a href="#home1" data-toggle="tab" aria-expanded="false" class="nav-link active">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">History Agenda Hari Ini</span>            
+                                        <span class="d-none d-sm-block">History Jurnal Kegiatan Hari Ini</span>            
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#profile1" data-toggle="tab" aria-expanded="true" class="nav-link">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Semua Agenda</span> 
+                                        <span class="d-none d-sm-block">Semua Jurnal Kegiatan</span> 
                                     </a>
                                 </li>
                             </ul>
 
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="home1">
-                                  <table id="responsive-datatable1" class="table table-bordered table-bordered dt-responsive nowrap">
+                                  <div class="row mb-1">
+                                    <div class="col d-flex justify-content-between">
+                                      <span>Jurnal Kegiatan Pada Hari {{\Carbon\Carbon::now()->timezone('Asia/Singapore')->isoFormat('dddd, DD MMMM Y')}}</span>
+                                      <a href="{{route('laporan.harian')}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan Harian</a>
+                                    </div>
+                                  </div>                                  
+                                  <table id="responsive-datatable1" class="table table-bordered dt-responsive table-responsive-sm nowrap">
                                     <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Tanggal</th>
                                         <th>Mata Pelajaran</th>
                                         <th>Materi</th>
+                                        <th>Hambatan</th>
+                                        <th>Pemecahan</th>
                                         <th>Absen</th>
                                         <th>Keterangan</th>
                                         <th>Opsi</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>30-06-2021</td>
-                                        <td>Bahasa Indonesia</td>
+                                      @forelse ($agendaT as $item)
+                                      <tr>
+                                        <td>{{$loop->iteration}}</td>
                                         <td>
-                                          <p>Pertemuan Pertama :
-                                            <ol>
-                                              <li>Pengenalan Kalimat Imbuhan</li>
-                                              <li>Belajar Membaut Pantun</li>
-                                            </ol>
-                                          </p>
+                                          <strong>{{$item->mapelGuru->mapel->mata_pelajaran}}</strong><br>
+                                          Nama Guru : <strong>{{$item->guru->gelar_depan.' '.$item->guru->nama_depan.' '.$item->guru->nama_belakang.' '.$item->guru->gelar_belakang}}</strong> <br>
+                                          Kelas : <strong>{{$item->mapelGuru->kelas->kelas}}</strong> 
                                         </td>
                                         <td>
-                                          40 Siswa
+                                          {!! $item->materi !!}
                                         </td>
                                         <td>
-                                          Seluruh Siswa Hadir
+                                          {!! $item->hambatan !!}
+                                        </td>
+                                        <td>
+                                          {!! $item->pemecahan !!}
+                                        </td>
+                                        <td>
+                                          {{$item->absen}} / {{$item->mapelGuru->kelas->jumlah_siswa}} Siswa <br>
+                                        </td>
+                                        <td>
+                                          {!! $item->keterangan !!}
                                         </td>
                                         <td>
                                           <div class="btn-group mb-1">
-                                            {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <button type="button" class="btn btn-warning text-dark waves-effect"><i class="fas fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+                                            <a href="{{route('laporan.harian.detail',$item->id_agenda)}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i></a>
+                                            {{-- <button type="button" class="btn btn-warning text-dark waves-effect"><i class="fas fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button> --}}
                                           </div>
                                         </td>
                                     </tr>
+                                      @empty
+                                          <tr>
+                                            <td colspan="7" class="text-center">
+                                              Belum ada Data
+                                            </td>
+                                          </tr>
+                                      @endforelse
                                     </tbody>
                                 </table>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="profile1">
-                                  <table id="responsive-datatable" class="table table-bordered table-bordered dt-responsive nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Mata Pelajaran</th>
-                                        <th>Materi</th>
-                                        <th>Absen</th>
-                                        <th>Keterangan</th>
-                                        <th>Opsi</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>30-06-2021</td>
-                                        <td>Bahasa Indonesia</td>
-                                        <td>
-                                          <p>Pertemuan Pertama :
-                                            <ol>
-                                              <li>Pengenalan Kalimat Imbuhan</li>
-                                              <li>Belajar Membaut Pantun</li>
-                                            </ol>
-                                          </p>
-                                        </td>
-                                        <td>
-                                          40 Siswa
-                                        </td>
-                                        <td>
-                                          Seluruh Siswa Hadir
-                                        </td>
-                                        <td>
-                                          <div class="btn-group mb-1">
-                                            {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <button type="button" class="btn btn-warning text-dark waves-effect"><i class="fas fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="messages1">
-                                    <p class="mb-0">Etsy mixtape wayfarers, ethical
-                                        wes anderson tofu before they sold out mcsweeney's organic lomo
-                                        retro fanny pack lo-fi farm-to-table readymade. Messenger bag
-                                        gentrify pitchfork tattooed craft beer, iphone skateboard locavore
-                                        carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
-                                        irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg
-                                        banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy
-                                        retro mlkshk vice blog. Scenester cred you probably haven't heard of
-                                        them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu
-                                        synth chambray yr.</p>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="settings1">
-                                    <p class="mb-0">Trust fund seitan letterpress,
-                                        keytar raw denim keffiyeh etsy art party before they sold out master
-                                        cleanse gluten-free squid scenester freegan cosby sweater. Fanny
-                                        pack portland seitan DIY, art party locavore wolf cliche high life
-                                        echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before
-                                        they sold out farm-to-table VHS viral locavore cosby sweater. Lomo
-                                        wolf viral, mustache readymade thundercats keffiyeh craft beer marfa
-                                        ethical. Wolf salvia freegan, sartorial keffiyeh echo park
-                                        vegan.</p>
+                                  <div class="row">
+                                    <div class="col-12 mb-1 d-flex justify-content-between">
+                                      <span>Semua Laporan</span>
+                                      <a href="{{route('laporan.semua')}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan</a>
+                                    </div>
+                                    <div class="col">
+                                      <table id="responsive-datatable" class="table table-bordered ">
+                                        <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Tanggal</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Materi</th>
+                                            <th>Absen</th>
+                                            <th>Keterangan</th>
+                                            <th>Opsi</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                          @forelse ($agendas as $item)
+                                          <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{\Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, DD MMMM Y')}}</td>
+                                            <td>
+                                              <strong>{{$item->mapelGuru->mapel->mata_pelajaran}}</strong><br>
+                                              Nama Guru : <strong>{{$item->guru->gelar_depan.' '.$item->guru->nama_depan.' '.$item->guru->nama_belakang.' '.$item->guru->gelar_belakang}}</strong> <br>
+                                              Kelas : <strong>{{$item->mapelGuru->kelas->kelas}}</strong>
+                                            </td>
+                                            <td>
+                                              {!! $item->materi !!}
+                                            </td>
+                                            <td>
+                                              {{$item->absen}} / {{$item->mapelGuru->kelas->jumlah_siswa}} Siswa
+                                            </td>
+                                            <td>
+                                              {!! $item->keterangan !!}
+                                            </td>
+                                            <td>
+                                              <div class="btn-group mb-1">
+                                                <a href="{{route('laporan.harian.detail',$item->id_agenda)}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i></a>
+                                                {{-- <button type="button" class="btn btn-warning text-dark waves-effect"><i class="fas fa-edit"></i></button>
+                                                <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button> --}}
+                                              </div>
+                                            </td>
+                                        </tr>
+                                          @empty
+                                              <tr>
+                                                <td colspan="7" class="text-center">
+                                                  Belum ada Data
+                                                </td>
+                                              </tr>
+                                          @endforelse
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                  </div>
                                 </div>
                             </div>
                                 
@@ -159,14 +170,14 @@
                   <!-- container-fluid -->
 @endsection
 
-@push('css')
+@section('css')
   <link href="{{asset('libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
-@endpush
+@endsection
 
-@push('js')
+@section('js')
     <!-- third party js -->
     <script src="{{asset('libs/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('libs/datatables/dataTables.bootstrap4.js')}}"></script>
@@ -185,4 +196,8 @@
 
     <!-- Datatables init -->
     <script src="{{asset('js/pages/datatables.init.js')}}"></script>
-@endpush
+    <script>
+      $("#responsive-datatable1").DataTable({});
+      $("#responsive-datatable").DataTable({});
+    </script>
+@endsection

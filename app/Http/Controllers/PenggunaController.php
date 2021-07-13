@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Session;
 use App\User;
+use App\Model\Guru;
+use App\Model\Agenda;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -63,6 +65,16 @@ class PenggunaController extends Controller
 
     public function destroy($id)
     {
+        $user = User::find($id);
+        if($user->role == 1){}
+        else{
+            $guru = Guru::where('id_user',$id)->first();
+            if (Agenda::where('id_guru',$guru->id_guru)->exists()) {
+                Session::flash('error', 'Data Pengguna Gagal Dihapus, Terdapat Data Yang Terkait dengan guru terkait pada akun ini');
+                return redirect()->back();
+                $guru->delete();
+            }
+        }
         User::destroy($id);
         
         Session::flash('success', 'Data Pengguna Berhasil Dihapus');
