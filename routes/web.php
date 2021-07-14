@@ -17,7 +17,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
+Route::group(['prefix' => 'admin','middleware' => 'can:admin,auth'], function () {
     Route::get('/dashboard', 'HomeController@admin')->name('admin.home');
     
     // Tahun Ajaran
@@ -68,13 +68,13 @@ Route::group(['prefix' => 'admin','middleware' => 'can:admin'], function () {
 
     Route::get('/getInformasiTerkini','HomeController@getInformasi')->name('info.terkini');
 
-    Route::get('/berkas', function () {
-        return view('admin.berkas.index');
-    })->name('admin.berkas');
+    Route::get('/master/berkas','FilePerangkatController@index')->name('admin.berkas');
+    Route::get('/master/berkas/{id}','FilePerangkatController@show')->name('admin.berkas.detail');
+
     Route::get('/agenda','AgendaController@index')->name('admin.agenda');
 });
 
-Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
+Route::group(['prefix' => 'guru','middleware' => 'can:guru,auth'], function () {
     Route::get('/dashboard', 'HomeController@guru')->name('guru.home');
     Route::get('/mata-pelajaran','KegiatanGuruController@mapel')->name('guru.mapel');
     Route::post('/mata-pelajaran', 'KegiatanGuruController@mapelStore')->name('guru.mapel.store');
@@ -90,6 +90,7 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
     Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('guru.ganti');
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('guru.update.data');
 
+    Route::post('/file-perangkat', 'KegiatanGuruController@filePerangkatStore')->name('guru.filePerangkat.store');
 
     Route::get('/ganti-password', function () {
         return view('guru.gantiPassword');
@@ -104,12 +105,10 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru'], function () {
         return view('guru.agenda.lain');
     })->name('guru.lain');
 
-    Route::get('/berkas', function () {
-        return view('guru.berkas.index');
-    })->name('guru.berkas');
+    Route::get('/berkas', 'KegiatanGuruController@filePerangkat')->name('guru.berkas');
 });
 
-Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek'], function () {
+Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek,auth'], function () {
     Route::get('/dashboard', 'HomeController@admin')->name('kepsek.home');
     
     Route::get('/master/pengguna/{id}','PenggunaController@show')->name('kepsek.detail');
@@ -158,6 +157,7 @@ Route::post('/agenda/stat/{id}', 'HomeController@agenda')->name('status.agenda')
     // Laporan
     Route::get('/laporan/harian','LaporanController@laporanHarian')->name('laporan.harian');
     Route::get('/laporan/harian/{id}','LaporanController@laporanDetail')->name('laporan.harian.detail');
+    Route::get('/laporan/guru/{id}','LaporanController@laporanGuru')->name('laporan.guru');
     Route::get('/laporan/semua','LaporanController@laporanSemua')->name('laporan.semua');
     Route::get('/laporan/pendamping/{id}','LaporanController@laporanPendamping')->name('laporan.pendamping');
 

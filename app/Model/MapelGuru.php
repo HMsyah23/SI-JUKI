@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Model\Agenda;
 use App\Model\Guru;
+use App\Model\FilePerangkat;
 use App\Model\Kela;
 use App\Model\MataPelajaran;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,10 @@ class MapelGuru extends Model
 
     public function guru(){
         return $this->belongsTo(Guru::class,'id_guru');
+    }
+
+    public function filePerangkat(){
+        return $this->belongsTo(FilePerangkat::class,'id_file');
     }
 
     public function mapel(){

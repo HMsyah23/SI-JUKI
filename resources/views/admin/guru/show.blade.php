@@ -10,7 +10,7 @@
                             <div class="card-box table-responsive">
                               <div class="d-flex align-items-center justify-content-between">
                                   <h4 class="mt-0 header-title">Data Guru <div class="badge badge-warning">{{$guru->gelar_depan.' '.$guru->nama_depan.' '.$guru->nama_belakang.' '.$guru->gelar_belakang ?? ''}}</div> <div class="badge badge-primary">{{$tahun->periode ?? ''}}|{{$tahun->semester ?? ''}}</div></h4>
-                                  <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center" ><i class="fas fa-print"></i> Cetak Laporan</button>      
+                                  <a href="{{route('laporan.guru',$guru->id_guru)}}" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3"><i class="fas fa-print"></i> Cetak Data</a>      
                               </div>
                               <form role="form"  action="{{ route('guru.update',$guru->id_guru) }}" method="POST" enctype="multipart/form-data">
                                 @csrf

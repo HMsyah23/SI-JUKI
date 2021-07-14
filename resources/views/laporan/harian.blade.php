@@ -142,7 +142,7 @@
     </tr>
       @empty
           <tr>
-            <td colspan="7" class="text-center">
+            <td colspan="10" class="text-center">
               Belum ada Data
             </td>
           </tr>
@@ -150,19 +150,16 @@
     </tbody>
 </table>
 
-    <div style="float: right; width: 28%;margin-top: 50px;">
-        <table>
-          <tr>
-            <td>Penanggung Jawab,</td>
-          </tr>
-          <tr>
-            <td style="height: 50px;"></td>
-          </tr>
-          <tr>
-            <td><u>......................................</u></td>
-          </tr>
-        </table>
-      </div>
+<div style="text-align: left; position: absolute; right: 0; font-size:12px;">
+  <span>Ditetapkan        : Di Samarinda </span> <br>
+  <span>Pada Tanggal  : {{\Carbon\Carbon::now()->isoFormat('D MMMM Y')}}</span><br>
+  <span>Kepala Sekolah,</span>
+  <br>
+  <br>
+  <br>
+  <br>
+  <span><u>...........................................</u><br>NIP. <u>......................</u></span>
+</div>
 </div>
 <script src="{{url('js/bootstrap.bundle.min.js')}}"></script>
 </body>

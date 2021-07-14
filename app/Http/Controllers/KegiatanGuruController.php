@@ -7,9 +7,12 @@ use Session;
 use App\Model\TahunAjaran;
 use App\Model\Agenda;
 use App\Model\MapelGuru;
+use App\Model\FilePerangkat;
 use App\Model\MataPelajaran;
 use App\Model\Kela;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class KegiatanGuruController extends Controller
 {
@@ -140,5 +143,40 @@ class KegiatanGuruController extends Controller
 
         Session::flash('success', 'Jurnal Kegiatan Berhasil Diperbarui');
         return redirect()->route('guru.jurnal');
+    }
+
+    public function filePerangkatStore(Request $r){
+        $r->validate([
+            'nama'   => 'required',
+            'mapel'  => 'required',
+            'kelas' => 'required',
+            'berkas' => 'required|max:2000|mimes:jpg,png,jpeg,xlsx,xls,pdf,docx,doc',
+        ]);
+        $path = $r->berkas->store('gurus/file_manager', 'public');
+
+        $fileP = collect(['nama' => $r->nama,'file' => $path]);
+
+        $id_mapel_guru = MapelGuru::where('id_guru',Auth::user()->guru->id_guru)
+                            ->where('id_mapel',$r->mapel)
+                            ->where('id_kelas',$r->kelas)
+                            ->first()->id_mapel_guru;
+
+        FilePerangkat::create([
+            'id_mapel_guru'  => $id_mapel_guru,
+            'file' => json_encode($fileP),
+        ]);
+        
+        Session::flash('success', 'Berkas Berhasil Ditambahkan');
+        return redirect()->route('guru.berkas');
+    }
+
+    public function filePerangkat(Request $r){
+        $id_guru = Auth::user()->guru->id_guru;
+        $filePerangkats =   FilePerangkat::whereHas('mapelGuru', function($query) use ($id_guru) {
+                                $query->where('id_guru', $id_guru);
+                            })->get();
+        $mapels = MapelGuru::where('id_guru',$id_guru)->get();
+        // dd($mapels);
+        return view('guru.berkas.index',compact('mapels','filePerangkats'));
     }
 }

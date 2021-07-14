@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use PDF;
 use App\Model\Agenda;
+use App\Model\Guru;
 use App\Model\TahunAjaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,6 +51,20 @@ class LaporanController extends Controller
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('laporan.detail',compact('agenda','base64','periode'))
+        // ->setOptions(['isPhpEnabled' => true])
+        ->setPaper('a4', 'portrait');
+        return $pdf->stream();
+	}
+
+    public function laporanGuru($id){
+        $periode = TahunAjaran::where('status',1)->first();
+        $guru = Guru::find($id);
+        $path = 'image/logo.jpg';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('laporan.guru',compact('guru','base64','periode'))
         // ->setOptions(['isPhpEnabled' => true])
         ->setPaper('a4', 'portrait');
         return $pdf->stream();

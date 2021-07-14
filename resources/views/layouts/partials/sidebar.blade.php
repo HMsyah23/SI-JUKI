@@ -130,12 +130,12 @@
                 <span> History Jurnal Mengajar </span>
             </a>
             </li>
-            {{-- <li>
+            <li>
             <a href="{{route('admin.berkas')}}">
-                <i class="mdi mdi-calendar-month-outline"></i>
-                <span> Bank Jurnal Mengajar </span>
+                <i class="mdi mdi-file"></i>
+                <span> Daftar Berkas Pengajar </span>
             </a>
-            </li> --}}
+            </li>
             <li>
             <a href="{{route('admin.pengguna')}}">
                 <i class="mdi mdi-account"></i>
@@ -173,7 +173,7 @@
             <li>
             <a href="{{route('guru.berkas')}}">
                 <i class="mdi mdi-folder-open"></i>
-                <span> File Pengajaran </span>
+                <span> File Manager </span>
             </a>
             </li>
             {{-- <li>

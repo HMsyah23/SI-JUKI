@@ -31,7 +31,7 @@
                                 <div role="tabpanel" class="tab-pane fade show active" id="home1">
                                   <div class="row mb-1">
                                     <div class="col d-flex justify-content-between">
-                                      <span>Jurnal Kegiatan Pada Hari {{\Carbon\Carbon::now()->timezone('Asia/Singapore')->isoFormat('dddd, DD MMMM Y')}}</span>
+                                      <span>Jurnal Kegiatan Pada Hari {{\Carbon\Carbon::now()->timezone('Asia/Singapore')->isoFormat('dddd, DD MMMM Y')}} <div class="badge badge-primary">{{$agendaT->count()}}</div></span>
                                       <a href="{{route('laporan.harian')}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan Harian</a>
                                     </div>
                                   </div>                                  
@@ -93,7 +93,7 @@
                                 <div role="tabpanel" class="tab-pane fade" id="profile1">
                                   <div class="row">
                                     <div class="col-12 mb-1 d-flex justify-content-between">
-                                      <span>Semua Laporan</span>
+                                      <span>Semua Laporan <div class="badge badge-primary">{{$agendas->count()}}</div></span>
                                       <a href="{{route('laporan.semua')}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan</a>
                                     </div>
                                     <div class="col">

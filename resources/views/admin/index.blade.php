@@ -82,7 +82,7 @@
                                       <div class="col-xl-6 col-lg-6">
                                         <div class="card-box widget-user bg-danger">
                                           <div class="text-center">
-                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">25</h1>
+                                              <h1 class="font-weight-bold text-white" data-plugin="counterup">{{$filePerangkats->count()}}</h1>
                                               <h5 class="text-white"><i class="mdi mdi-clipboard-file"></i> File Perangkat</h5>
                                           </div>
                                         </div>

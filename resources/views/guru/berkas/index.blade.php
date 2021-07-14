@@ -8,6 +8,10 @@
                       <div class="row">
                         <div class="col-12">
                             <div class="card-box table-responsive">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="mt-0 header-title">File Manager Guru </h4>
+                                    <a href="#" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center"><i class="mdi mdi-upload"></i> Upload File</a>      
+                                </div>
                               <div class="d-flex align-items-center justify-content-between">
                                   <h4 class="mt-0 header-title">File Manager</h4>
                                   {{-- <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center" ><i class="mdi mdi-plus"></i> Tambah Data</button>       --}}
@@ -22,31 +26,85 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td> <a href="#" class="text-bold text-primary"> Bahasa Indonesia</a></td>
-                                        <td> <div class="badge badge-primary">1.</div> VII-A</td>
-                                       <td>
+                                    @forelse ($filePerangkats as $item)
+                                      <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$item->mapelGuru->mapel->mata_pelajaran}}</td>
+                                        <td>{{$item->mapelGuru->kelas->kelas}}</td>
+                                      <td>
                                           <div class="btn-group mb-1">
-                                            {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <button type="button" class="btn btn-purple waves-effect"><i class="mdi mdi-upload"></i> Upload File</button>
+                                            <a href="{{url('public/'.json_decode($item->file)->file)}}" type="button" class="btn btn-purple waves-effect" target="_blank"><i class="mdi mdi-eye"></i> {{json_decode($item->file)->nama}}</a>
                                           </div>
                                         </td>
                                     </tr>
+                                    @empty
+                                        
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                     <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myCenterModalLabel" aria-hidden="true" style="display: none;">
-                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
                           <div class="modal-content">
                               <div class="modal-header">
-                                  <h4 class="modal-title" id="myCenterModalLabel">Tambah Data</h4>
+                                  <h4 class="modal-title" id="myCenterModalLabel"><i class="mdi mdi-upload"></i> Upload File</h4>
                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                               </div>
+                              <form role="form"  action="{{ route('guru.filePerangkat.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
                               <div class="modal-body">
-                                  ...
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-12">
+                                      <div class="col">
+                                          <div class="form-group">
+                                            <label for="golongan">Nama File</label>
+                                            <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama" value="{{old('nama')}}" maxlength="25">
+                                          </div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="form-group">
+                                          <label for="golongan">Mata Pelajaran</label>
+                                          <select name="mapel" class="form-control">
+                                            @forelse ($mapels as $item)
+                                              <option value="{{$item->mapel->id_mapel}}">{{$item->mapel->mata_pelajaran}}</option>  
+                                            @empty
+                                              <option value="null">Tidak Ada</option>
+                                            @endforelse
+                                        </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12">
+                                      <div class="col">
+                                        <div class="form-group">
+                                          <label for="">Unggah File</label>
+                                            <input type="file" name="berkas" class="form-control">
+                                          </div>
+                                      </div>
+                                      <div class="col">
+                                          <div class="form-group">
+                                          <label for="simpleinput">Kelas</label>
+                                          <select name="kelas" class="form-control">
+                                            @forelse ($mapels as $item)
+                                              <option value="{{$item->kelas->id_kelas}}">{{$item->kelas->kelas}}</option>
+                                            @empty
+                                              <option value="null">Tidak Ada</option>
+                                            @endforelse
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                <div class="form-group mb-0 justify-content-end">
+                                      <button type="submit" class="btn btn-purple waves-effect waves-light">
+                                        <i class="mdi mdi-upload"></i> Unggah Berkas
+                                       </button>
+                                </div>
+                              </form>
                               </div>
                           </div><!-- /.modal-content -->
                       </div><!-- /.modal-dialog -->
@@ -55,14 +113,14 @@
                   <!-- container-fluid -->
 @endsection
 
-@push('css')
+@section('css')
   <link href="{{asset('libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
-@endpush
+@endsection
 
-@push('js')
+@section('js')
     <!-- third party js -->
     <script src="{{asset('libs/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('libs/datatables/dataTables.bootstrap4.js')}}"></script>
@@ -81,4 +139,4 @@
 
     <!-- Datatables init -->
     <script src="{{asset('js/pages/datatables.init.js')}}"></script>
-@endpush
+@endsection

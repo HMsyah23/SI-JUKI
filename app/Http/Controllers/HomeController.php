@@ -6,6 +6,7 @@ use Auth;
 use App\Model\Agenda;
 use App\Model\Guru;
 use App\Model\TahunAjaran;
+use App\Model\FilePerangkat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,8 @@ class HomeController extends Controller
         $gurus   = Guru::all();
         $agen  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
         $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status',1)->get();
-        return view('admin.index',compact('agendas','agenda','gurus','agen'));
+        $filePerangkats  = FilePerangkat::all();
+        return view('admin.index',compact('agendas','agenda','gurus','agen','filePerangkats'));
     }
 
     public function guru()
