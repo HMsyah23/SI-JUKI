@@ -21,8 +21,7 @@ class MataPelajaranController extends Controller
             'id_tahun_ajaran' => 'required',
             'mata_pelajaran' => 'required',
         ]);
-
-        if (MataPelajaran::where('mata_pelajaran',$r->mata_pelajaran)->first() != NULL) {
+        if (MataPelajaran::where('mata_pelajaran',$r->mata_pelajaran)->where('id_tahun_ajaran',$r->id_tahun_ajaran)->first() != NULL) {
             Session::flash('error', 'Terdapat Duplikasi Data');
             return redirect()->back();
         }

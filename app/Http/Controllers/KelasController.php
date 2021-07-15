@@ -23,7 +23,7 @@ class KelasController extends Controller
             'jumlah_siswa' => 'required',
         ]);
 
-        if (Kela::where('kelas',$r->kelas)->first() != NULL) {
+        if (Kela::where('kelas',$r->kelas)->where('id_tahun_ajaran',$r->id_tahun_ajaran)->first() != NULL) {
             Session::flash('error', 'Terdapat Duplikasi Data');
             return redirect()->back();
         }
