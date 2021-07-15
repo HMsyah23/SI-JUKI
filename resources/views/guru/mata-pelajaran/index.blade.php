@@ -31,11 +31,28 @@
                                             <td>
                                               <div class="btn-group mb-1">
                                                 {{-- <button type="button" class="btn btn-warning waves-effect text-dark"><i class="fas fa-edit"></i></button> --}}
-                                                <form action="{{ route('guru.mapel.delete',$item->id_mapel_guru) }}"  method="POST" enctype="multipart/form-data">
-                                                  @csrf
-                                                  @method('DELETE')
-                                                  <button type="submit" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
-                                                  </form>
+                                                <button type="button" data-toggle="modal" data-target="#staticBackdrop-{{$item->id_mapel_guru}}" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+
+                                                  <div class="modal fade" id="staticBackdrop-{{$item->id_mapel_guru}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title text-white" id="staticBackdropLabel">Yakin Ingin Menghapus Data Mata Pelajaran {{ $item->mapel->mata_pelajaran }} ?</h5>
+                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                                            <form action="{{ route('guru.mapel.delete',$item->id_mapel_guru) }}"  method="POST" enctype="multipart/form-data">
+                                                              @csrf
+                                                              @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Ya</button>
+                                                          </form>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
                                                 </div>
                                             </td>
                                           </tr>

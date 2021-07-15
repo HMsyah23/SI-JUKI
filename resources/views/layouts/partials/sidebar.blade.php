@@ -214,6 +214,12 @@
                 <span> Laporan Harian </span>
             </a>
         </li>
+        <li>
+            <a href="{{route('kepsek.berkas')}}">
+                <i class="mdi mdi-file"></i>
+                <span> Daftar Berkas Pengajar </span>
+            </a>
+            </li>
         @endif
       </ul>
 

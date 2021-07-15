@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title','Dashboard Kepala Sekolah | History Agenda')
-@section('dashboard','Dashboard Kepala Sekolah | History Agenda')
+@section('title','Dashboard Kepala Sekolah | History Jurnal Kegiatan')
+@section('dashboard','Dashboard Kepala Sekolah | History Jurnal Kegiatan')
 @section('content')
                     <!-- Start Content-->
                     <div class="container-fluid">
@@ -9,20 +9,20 @@
                         <div class="col-12">
                             <div class="card-box table-responsive">
                               <div class="d-flex align-items-center justify-content-between">
-                                  <h4 class="mt-0 header-title">History Agenda</h4>
+                                  <h4 class="mt-0 header-title">History Jurnal Kegiatan</h4>
                                   {{-- <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center" ><i class="mdi mdi-plus"></i> Tambah Data</button>       --}}
                               </div>
                               <ul class="nav nav-tabs">
                                 <li class="nav-item">
                                     <a href="#home1" data-toggle="tab" aria-expanded="false" class="nav-link active">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">History Agenda Hari Ini</span>            
+                                        <span class="d-none d-sm-block">History Jurnal Kegiatan Hari Ini</span>            
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#profile1" data-toggle="tab" aria-expanded="true" class="nav-link">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Semua Agenda</span> 
+                                        <span class="d-none d-sm-block">Semua Jurnal Kegiatan</span> 
                                     </a>
                                 </li>
                             </ul>
@@ -31,8 +31,8 @@
                                 <div role="tabpanel" class="tab-pane fade show active" id="home1">
                                   <div class="row mb-1">
                                     <div class="col d-flex justify-content-between">
-                                      <span>Jurnal Kegiatan Pada Hari : {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}}</span>
-                                      <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan Harian</button>
+                                      <span>Jurnal Kegiatan Pada Hari : {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}} <div class="badge badge-primary">{{$agenda->count()}}</div></span>
+                                      <a href="{{route('laporan.harian')}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan Harian</a>
                                     </div>
                                   </div> 
                                   <table id="responsive-datatable1" class="table table-bordered table-bordered dt-responsive nowrap">
@@ -94,8 +94,8 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="profile1">
                                   <div class="col-12 mb-1 d-flex justify-content-between">
-                                    <span>Semua Laporan</span>
-                                    <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan</button>
+                                    <span>Semua Laporan <div class="badge badge-primary">{{$agendas->count()}}</div></span>
+                                    <a href="{{route('laporan.semua')}}" class="btn btn-primary waves-effect"><i class="fas fa-print"></i> Cetak Laporan</a>
                                   </div>
                                   <div class="col">
                                   <table id="responsive-datatable" class="table table-bordered ">
@@ -127,9 +127,9 @@
                                         </td>
                                         <td>
                                           <div class="btn-group mb-1">
-                                              <a href="#" type="button" class="btn btn-purple waves-effect"><i class="fas fa-print"></i></a>  
+                                            <a href="{{route('laporan.harian.detail',$item->id_agenda)}}" class="btn btn-purple waves-effect"><i class="fas fa-print"></i></a> 
                                             <a href="{{route('kepsek.komentar',$item->id_agenda)}}" type="button" class="btn btn-info waves-effect"><i class="fas fa-eye"></i></a>
-                                            <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+                                            {{-- <button type="button" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button> --}}
                                           </div>
                                         </td>
                                     </tr>

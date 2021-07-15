@@ -67,7 +67,7 @@
                                           <div class="card-box widget-user bg-success">
                                             <div class="text-center">
                                                 <h1 class="font-weight-bold text-white"><i class="mdi mdi-folder-open"></i></h1>
-                                                <h5 class="text-white">File Pengajaran</h5>
+                                                <h5 class="text-white">File Manager</h5>
                                             </div>
                                           </div>
                                           </a>

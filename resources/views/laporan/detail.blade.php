@@ -103,8 +103,11 @@
     </tr>
     <tr>
       <th>Jam Ke</th>
+      @php
+          $presentase = ($agenda->absen / $agenda->mapelGuru->kelas->jumlah_siswa) * 100;
+      @endphp
       <td>{{$agenda->jam}}</td>
-      <th>Absensi</th>
+      <th>Absensi ({{$presentase}}%)</th>
       <td>{{$agenda->absen}} / {{$agenda->mapelGuru->kelas->jumlah_siswa}} Siswa</td>
     </tr>
     <tr>

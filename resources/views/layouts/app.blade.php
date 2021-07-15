@@ -13,7 +13,7 @@
     <title> @yield('title') </title>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     @yield('css')
     <!-- Bootstrap Css -->

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from coderthemes.com/adminto/layouts/vertical/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 06 Jun 2021 02:50:53 GMT -->
-
 <head>
     <meta charset="utf-8" />
     <title>Log in | E-Agenda Guru</title>
@@ -11,7 +9,7 @@
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{('favicon.ico')}}">
 
     <!-- Bootstrap Css -->
     <link href="{{('assets/css/bootstrap.min.css')}}" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />
@@ -22,33 +20,33 @@
 
 </head>
 
-
-<body class="authentication-bg">
+<body class="authentication-bg bg-success">
 
     <div class="account-pages mt-5 mb-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
-                    <div class="text-center">
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo-light.png" alt="" height="22" class="logo-light mx-auto">
-                            <img src="assets/images/logo-dark.png" alt="" height="22" class="logo-dark mx-auto">
-                        </a>
-                        <p class="text-muted mt-2 mb-4">Responsive Admin Dashboard</p>
-                    </div>
+                    
                     <div class="card">
 
                         <div class="card-body p-4">
-
+                            <div class="text-center">
+                                <a href="#" class="logo">
+                                    <img src="image/logo.png" alt="" height="80" class="logo-light mx-auto">
+                                    <img src="image/logo.png" alt="" height="80" class="logo-dark mx-auto">
+                                </a>
+                                <h3 class="mt-2 mb-4">SMP 1 MUHAMMADIYAH</h3>
+                            </div>
+                            <h3 class="text-muted text-center">E - Jurnal Kegiatan</h3>
                             <div class="text-center mb-4">
-                                <h4 class="text-uppercase mt-0">Sign In</h4>
+                                <h4 class="text-uppercase mt-0">Log In</h4>
                             </div>
 
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
                                 <div class="form-group mb-3">
-                                    <label for="emailaddress">Email address</label>
+                                    <label for="emailaddress">Email </label>
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                         @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -76,7 +74,7 @@
                                 </div> --}}
 
                                 <div class="form-group mb-0 text-center">
-                                    <button class="btn btn-primary btn-block" type="submit"> Log In </button>
+                                    <button class="btn btn-success btn-block" type="submit"> Log In </button>
                                 </div>
 
                             </form>

@@ -8,7 +8,7 @@
                       <div class="row">
                         <div class="col-12">
                           <div class="card-box table-responsive">
-                            <h4 class="mt-0 header-title">Laporan Kegiatan Harian</h4>
+                            <h4 class="mt-0 header-title">Laporan Kegiatan Harian <div class="badge badge-primary">{{$agenda->count()}}</div></h4>
                             <table id="responsive-datatable" class="table table-bordered table-bordered dt-responsive nowrap">
                               <thead>
                               <tr>

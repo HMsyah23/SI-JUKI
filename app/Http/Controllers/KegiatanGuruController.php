@@ -50,6 +50,12 @@ class KegiatanGuruController extends Controller
 
     public function mapelDestroy($id)
     {
+        $mapel = MapelGuru::find($id);
+        if($mapel->agenda != null) {
+            Session::flash('error', 'Terdapat Jurnal Kegiatan Yang Menggunakan Data Ini');
+            return redirect()->back();
+        }
+
         MapelGuru::destroy($id);
         
         Session::flash('success', 'Data Mata Pelajaran Berhasil Dihapus');
@@ -60,6 +66,17 @@ class KegiatanGuruController extends Controller
     public function jurnal(){
         $agendas = Agenda::all();
         return view('guru.agenda.index',compact('agendas'));
+    }
+
+    public function laporan(){
+        $agendas = Agenda::all();
+        return view('guru.laporan.index',compact('agendas'));
+    }
+
+    public function getLaporan($dari,$sampai){
+        // dd($sampai);
+        $agendas = Agenda::whereBetween('created_at', [$dari, $sampai])->where('id_guru',Auth::user()->guru->id_guru)->get();
+        return view('guru.laporan.getLaporan',compact('agendas'));
     }
 
     public function addJurnal(){
@@ -78,10 +95,25 @@ class KegiatanGuruController extends Controller
             'absensi' => 'required',
         ]);
 
+        if(($r->id_mapel == "null") or ($r->id_kelas == "null")){
+            Session::flash('error', 'Mata Pelajaran atau Kelas Tidak Ditemukan');
+            return redirect()->back();
+        }
+
         $id_mapel_guru = MapelGuru::where('id_guru',auth()->user()->guru->id_guru)
                             ->where('id_mapel',$r->id_mapel)
                             ->where('id_kelas',$r->id_kelas)->first('id_mapel_guru')->id_mapel_guru;
         $stat = collect(['admin' =>1,'kepsek' => 1]);
+
+        $kelas = MapelGuru::where('id_guru',auth()->user()->guru->id_guru)
+                            ->where('id_mapel',$r->id_mapel)
+                            ->where('id_kelas',$r->id_kelas)->first()->kelas->jumlah_siswa;
+
+        if ($r->absensi > $kelas) {
+            Session::flash('error', 'Jumlah Siswa Tidak Sesuai');
+            return redirect()->back();
+        }
+
         
         Agenda::create([
             'id_guru' => auth()->user()->guru->id_guru,  
@@ -152,6 +184,12 @@ class KegiatanGuruController extends Controller
             'kelas' => 'required',
             'berkas' => 'required|max:2000|mimes:jpg,png,jpeg,xlsx,xls,pdf,docx,doc',
         ]);
+
+        if(($r->mapel == "null") or ($r->kelas == "null")){
+            Session::flash('error', 'Mata Pelajaran atau Kelas Tidak Ditemukan');
+            return redirect()->back();
+        }
+
         $path = $r->berkas->store('gurus/file_manager', 'public');
 
         $fileP = collect(['nama' => $r->nama,'file' => $path]);
@@ -178,5 +216,18 @@ class KegiatanGuruController extends Controller
         $mapels = MapelGuru::where('id_guru',$id_guru)->get();
         // dd($mapels);
         return view('guru.berkas.index',compact('mapels','filePerangkats'));
+    }
+
+    public function filePerangkatDestroy($id)
+    {
+        $file = FilePerangkat::find($id);
+        if (File::exists(public_path('../public/'.json_decode($file->file)->file))) {
+            File::delete(public_path('../public/'.json_decode($file->file)->file));
+        }
+        
+        FilePerangkat::destroy($id);
+        
+        Session::flash('success', 'Data Mata Pelajaran Berhasil Dihapus');
+        return redirect()->back();
     }
 }

@@ -10,65 +10,34 @@
                           <div class="card-box table-responsive">
                             <h4 class="mt-0 header-title">Data Agenda</h4>
                             <div class="d-flex align-items-center justify-content-start">
-                              <form class="form-horizontal" role="form">
+                              <form action="{{ route('laporan.dariSampai') }}"  method="POST" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
                                   <div class="col-4">
                                     <div class="form-group">
                                       <label>Dari</label>
-                                      <input type="date" class="form-control">
+                                      <input id="periodeSelect" name="dari" type="date" class="form-control" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                                     </div>
                                   </div>
                                   <div class="col-4">
                                     <div class="form-group">
                                       <label>Sampai</label>
-                                      <input type="date" class="form-control">
+                                      <input   id="jenisSelect" name="sampai" type="date" class="form-control" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                                     </div>
                                   </div>
                                   <div class="col-4">
                                     <br>
-                                    <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center" ><i class="mdi mdi-printer"></i> Cetak Laporan</button>      
+                                    <button type="submit" class="btn btn-primary waves-effect" ><i class="mdi mdi-printer"></i> Cetak Laporan</button>      
                                   </div>
                                 </div>
                             </form>    
                             </div>
-                            <table class="table table-bordered table-bordered dt-responsive nowrap">
-                              <thead>
-                              <tr>
-                                  <th>No</th>
-                                  <th>Tanggal</th>
-                                  <th>Pukul</th>
-                                  <th>Kegiatan</th>
-                                  <th>Keterangan</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                  <td>1</td>
-                                  <td>30-06-2021</td>
-                                  <td>
-                                    <strong>Mengajar</strong>
-                                    <hr>
-                                    <div class="form-group">
-                                      <input type="text" class="form-control" disabled value="10.00 - 11.00">
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <strong>Mengajar</strong>
-                                    <hr>
-                                    <div class="alert alert-secondary">Mengajar : <strong>Bahasa Indonesia</strong></div>
-                                    <strong>Tidak Mengajar</strong>
-                                    <hr>
-                                  </td>
-                                  <td>
-                                    <strong>Mengajar</strong>
-                                    <hr>
-                                    <div class="alert alert-secondary"><strong>Seluruh Siswa Hadir</strong></div>
-                                    <strong>Tidak Mengajar</strong>
-                                    <hr>
-                                  </td>
-                              </tr>
-                              </tbody>
-                          </table>
+                              <div class="col" id="spinner" style="visibility: hidden">
+                                  <button type="button" name="btn-enviar" class="btn btn-primary w-100">
+                                  <span class="spinner spinner-border spinner-border-sm mr-3" role="status" aria-hidden="true">
+                                  </span>Tunggu Sebentar...  Sedang Memproses Data</button>
+                                </div>
+                              <div id="dataTable"></div>
                             </div>
                         </div>
                     </div>
@@ -89,14 +58,14 @@
                   <!-- container-fluid -->
 @endsection
 
-@push('css')
+@section('css')
   <link href="{{asset('libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
-@endpush
+@endsection
 
-@push('js')
+@section('js')
     <!-- third party js -->
     <script src="{{asset('libs/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('libs/datatables/dataTables.bootstrap4.js')}}"></script>
@@ -115,4 +84,43 @@
 
     <!-- Datatables init -->
     <script src="{{asset('js/pages/datatables.init.js')}}"></script>
-@endpush
+    <script>
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              cache: false
+          }
+      });
+    
+      function loadDataTable(x,validasi){
+          $.ajax({
+              url: 'laporan/getLaporan/'+x+'/'+validasi,
+              success:function(data){
+                  $('#dataTable').html(data);
+                  let spinner = document.getElementById("spinner");
+                  spinner.style.visibility = 'hidden';
+              },
+                beforeSend: function(){
+                  let spinner = document.getElementById("spinner");
+                  spinner.style.visibility = 'visible';
+              },
+          })
+      }
+      var id = $('#periodeSelect').val();
+      loadDataTable(id,0);
+    
+      $(document).ready(function(){
+      $('#periodeSelect').change(function(){
+        var id = $(this).val();
+        var valid = $('#jenisSelect').val();
+        loadDataTable(id,valid);
+      });
+      $('#jenisSelect').change(function(){
+        var id = $('#periodeSelect').val();
+        var valid = $(this).val();
+        loadDataTable(id,valid);
+      });
+    });
+    
+    </script>
+@endsection

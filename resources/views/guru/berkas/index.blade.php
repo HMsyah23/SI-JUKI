@@ -34,6 +34,28 @@
                                       <td>
                                           <div class="btn-group mb-1">
                                             <a href="{{url('public/'.json_decode($item->file)->file)}}" type="button" class="btn btn-purple waves-effect" target="_blank"><i class="mdi mdi-eye"></i> {{json_decode($item->file)->nama}}</a>
+                                            <button type="button" data-toggle="modal" data-target="#staticBackdrop-{{$item->id_file}}" class="btn btn-danger waves-effect"><i class="fas fa-trash"></i></button>
+
+                                                  <div class="modal fade" id="staticBackdrop-{{$item->id_file}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title text-white" id="staticBackdropLabel">Yakin Ingin Menghapus Data Mata Pelajaran {{ json_decode($item->file)->nama }} ?</h5>
+                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                                            <form action="{{ route('guru.filePerangkat.delete',$item->id_file) }}"  method="POST" enctype="multipart/form-data">
+                                                              @csrf
+                                                              @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Ya</button>
+                                                          </form>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
                                           </div>
                                         </td>
                                     </tr>

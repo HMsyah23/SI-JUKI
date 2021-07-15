@@ -91,14 +91,14 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru,auth'], function () {
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('guru.update.data');
 
     Route::post('/file-perangkat', 'KegiatanGuruController@filePerangkatStore')->name('guru.filePerangkat.store');
+    Route::delete('/file-perangkat/{id}', 'KegiatanGuruController@filePerangkatDestroy')->name('guru.filePerangkat.delete');
 
     Route::get('/ganti-password', function () {
         return view('guru.gantiPassword');
     })->name('guru.ganti');
 
-    Route::get('/laporan', function () {
-        return view('guru.laporan.index');
-    })->name('guru.laporan');
+    Route::get('/laporan', 'KegiatanGuruController@laporan')->name('guru.laporan');
+    Route::get('/laporan/getLaporan/{dari}/{sampai}', 'KegiatanGuruController@getLaporan')->name('guru.getLaporan');
 
 
     Route::get('/lainnya', function () {
@@ -123,6 +123,8 @@ Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek,auth'], function 
     Route::get('/laporan/{id}','KegiatanKepsekController@laporanDetail')->name('kepsek.laporan.detail');
 
 
+    Route::get('/master/berkas','FilePerangkatController@index')->name('kepsek.berkas');
+    Route::get('/master/berkas/{id}','FilePerangkatController@show')->name('kepsek.berkas.detail');
 
     Route::get('/master/tahun-ajaran', function () {
         return view('kepsek.tahun-ajaran.index');
@@ -144,10 +146,6 @@ Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek,auth'], function 
         return view('kepsek.pengguna.index');
     })->name('kepsek.pengguna');
 
-    Route::get('/berkas', function () {
-        return view('kepsek.berkas.index');
-    })->name('kepsek.berkas');
-
     Route::get('/getInformasiTerkini','HomeController@getInformasi')->name('info.terkini');
 
 });
@@ -159,6 +157,7 @@ Route::post('/agenda/stat/{id}', 'HomeController@agenda')->name('status.agenda')
     Route::get('/laporan/harian/{id}','LaporanController@laporanDetail')->name('laporan.harian.detail');
     Route::get('/laporan/guru/{id}','LaporanController@laporanGuru')->name('laporan.guru');
     Route::get('/laporan/semua','LaporanController@laporanSemua')->name('laporan.semua');
+    Route::post('/laporan/dariSampai','LaporanController@laporanDariSampai')->name('laporan.dariSampai');
     Route::get('/laporan/pendamping/{id}','LaporanController@laporanPendamping')->name('laporan.pendamping');
 
 Auth::routes();

@@ -31,7 +31,11 @@
                                         <td>
                                           <div class="btn-group mb-1">
                                             {{-- <button type="button" class="btn btn-primary waves-effect"><i class="fas fa-eye"></i> Lihat</button> --}}
-                                            <a href="{{route('admin.berkas.detail',$key)}}" class="btn btn-purple waves-effect"><i class="mdi mdi-eye"></i> Detail <span class="badge badge-warning text-dark">{{$item->count()}}</span></a>
+                                            @if (Auth::user()->role == 0)
+                                                <a href="{{route('admin.berkas.detail',$key)}}" class="btn btn-purple waves-effect"><i class="mdi mdi-eye"></i> Detail <span class="badge badge-warning text-dark">{{$item->count()}}</span></a>
+                                            @else
+                                                <a href="{{route('kepsek.berkas.detail',$key)}}" class="btn btn-purple waves-effect"><i class="mdi mdi-eye"></i> Detail <span class="badge badge-warning text-dark">{{$item->count()}}</span></a>   
+                                            @endif
                                           </div>
                                         </td>
                                     </tr>

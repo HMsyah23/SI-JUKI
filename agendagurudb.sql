@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2021 at 09:54 PM
+-- Generation Time: Jul 15, 2021 at 03:48 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -40,16 +40,9 @@ CREATE TABLE `agendas` (
   `keterangan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `status` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`status`)),
+  `saran` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `agendas`
---
-
-INSERT INTO `agendas` (`id_agenda`, `id_guru`, `id_tahun_ajaran`, `id_mapel_guru`, `jam`, `materi`, `hambatan`, `pemecahan`, `absen`, `keterangan`, `created_at`, `updated_at`, `status`) VALUES
-(1, 6, 2, 11, '1,2', '<p>Memahami Makna Bilangan Bulat</p><ol><li>Memberikan Pemahaman</li></ol>', 'Ada Sebagian Siswa yang kehilangan koneksi jaringan saat <i>zoom meeting</i> dimulai', '<p>Siswa yang memiliki kendala internet, diwajibkan mengikuti perkembangan melalui grup telegram dan wa kelas</p>', '30', 'Siswa Cukup Kooperatif', '2021-07-07 16:00:00', '2021-07-08 11:53:41', '1'),
-(4, 6, 2, 10, '1,2', '<p>Belajar Memahami Rumus Pythagoras</p><ol><li>Teorama Pythagoras</li><li>Kegunaan Rumus Dalam Kegiatan Sehari - hari</li></ol>', 'Tidak Ada', '<p>Tidak Ada</p>', '12', 'Siswa yang mengisi absensi tidak sampai 50%', '2021-07-08 16:00:00', '2021-07-08 11:51:38', '0');
 
 -- --------------------------------------------------------
 
@@ -74,7 +67,7 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `file_perangkats` (
   `id_file` int(10) UNSIGNED NOT NULL,
-  `id_agenda` int(10) UNSIGNED DEFAULT NULL,
+  `id_mapel_guru` int(10) UNSIGNED DEFAULT NULL,
   `file` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -110,13 +103,6 @@ CREATE TABLE `gurus` (
   `foto` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `gurus`
---
-
-INSERT INTO `gurus` (`id_guru`, `id_user`, `id_kepegawaian`, `id_jabatan`, `nama_depan`, `nama_belakang`, `gelar_depan`, `gelar_belakang`, `jenis_kelamin`, `agama`, `nbm`, `nip`, `golongan`, `tanggal_lulus`, `tanggal_lahir`, `email`, `universitas`, `jenjang`, `jurusan`, `alamat`, `foto`) VALUES
-(6, 13, 5, 4, 'Muhammad', 'Arwani', NULL, 'S.Ag', '1', 'Islam', '1065944', '824475165420000000', NULL, '2000-08-01', '1977-06-16', 'guru01@gmail.com', 'Universitas Mulawarman', 'S1', 'Pend. Agama Islam', 'Jl. Jauh Sekali', 'default-user.png');
-
 -- --------------------------------------------------------
 
 --
@@ -127,14 +113,6 @@ CREATE TABLE `jabatans` (
   `id_jabatan` int(10) UNSIGNED NOT NULL,
   `jabatan` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `jabatans`
---
-
-INSERT INTO `jabatans` (`id_jabatan`, `jabatan`) VALUES
-(4, 'Kepala Sekolah'),
-(5, 'Wakil Kepsek');
 
 -- --------------------------------------------------------
 
@@ -149,14 +127,6 @@ CREATE TABLE `kelas` (
   `jumlah_siswa` decimal(3,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `kelas`
---
-
-INSERT INTO `kelas` (`id_kelas`, `id_tahun_ajaran`, `kelas`, `jumlah_siswa`) VALUES
-(3, 2, 'VII-A', '40'),
-(4, 2, 'VII-B', '30');
-
 -- --------------------------------------------------------
 
 --
@@ -170,14 +140,6 @@ CREATE TABLE `mapel_gurus` (
   `id_kelas` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `mapel_gurus`
---
-
-INSERT INTO `mapel_gurus` (`id_mapel_guru`, `id_guru`, `id_mapel`, `id_kelas`) VALUES
-(10, 6, 8, 3),
-(11, 6, 8, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -189,14 +151,6 @@ CREATE TABLE `mata_pelajarans` (
   `id_tahun_ajaran` int(10) UNSIGNED DEFAULT NULL,
   `mata_pelajaran` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `mata_pelajarans`
---
-
-INSERT INTO `mata_pelajarans` (`id_mapel`, `id_tahun_ajaran`, `mata_pelajaran`) VALUES
-(8, 2, 'Matematika'),
-(10, 2, 'Bahasa Indonesia');
 
 -- --------------------------------------------------------
 
@@ -252,14 +206,6 @@ CREATE TABLE `status_kepegawaians` (
   `nama` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `status_kepegawaians`
---
-
-INSERT INTO `status_kepegawaians` (`id_status_kepegawaian`, `kode`, `nama`) VALUES
-(5, 'GTP', 'Guru Tetap Persyarikatan'),
-(6, 'GTTP', 'Guru Tidak Tetap Persyarikatan');
-
 -- --------------------------------------------------------
 
 --
@@ -278,8 +224,7 @@ CREATE TABLE `tahun_ajarans` (
 --
 
 INSERT INTO `tahun_ajarans` (`id_tahun_ajaran`, `periode`, `semester`, `status`) VALUES
-(1, '2020/2021', 'Ganjil', 0),
-(2, '2020/2021', 'Genap', 1);
+(18, '2021/2022', 'Ganjil', 1);
 
 -- --------------------------------------------------------
 
@@ -302,8 +247,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `name`, `role`, `email`, `password`, `foto`) VALUES
 (1, 'admin', '0', 'admin@admin.com', '$2y$10$YgVPkX5U6GeXjSe9OvCntOb6EervHhneI1YtVfQLUFbizx1lUNuB6', 'default-user.png'),
-(13, 'Arwani', '2', 'guru01@gmail.com', '$2y$10$VYzwta7HcFuYsS.As2g0BuHNQBlN523iEyyQgWlYH.CVI35GjdOva', 'default-user.png'),
-(15, 'Kepsek', '1', 'kepsek@gmail.com', '$2y$10$67I3QSOpMku8qJA5eU1ELeqNcvs0.ID54sWrQfiLZ48dyYwYnwcp2', 'default-user.png');
+(21, 'Kepsek', '1', 'kepsek@admin.com', '$2y$10$NqgJG1iFq5/nIx2ZnQjUHeC7RngRy/.HPuKUQYuUn9PolBXpg8yDq', 'default-user.png');
 
 --
 -- Indexes for dumped tables
@@ -329,7 +273,7 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `file_perangkats`
   ADD PRIMARY KEY (`id_file`),
-  ADD KEY `file_perangkats_id_agenda_foreign` (`id_agenda`);
+  ADD KEY `file_perangkats_id_mapel_guru_foreign` (`id_mapel_guru`);
 
 --
 -- Indexes for table `gurus`
@@ -409,7 +353,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `id_agenda` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_agenda` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -421,13 +365,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `file_perangkats`
 --
 ALTER TABLE `file_perangkats`
-  MODIFY `id_file` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_file` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `gurus`
 --
 ALTER TABLE `gurus`
-  MODIFY `id_guru` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_guru` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `jabatans`
@@ -439,19 +383,19 @@ ALTER TABLE `jabatans`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_kelas` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `mapel_gurus`
 --
 ALTER TABLE `mapel_gurus`
-  MODIFY `id_mapel_guru` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_mapel_guru` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `mata_pelajarans`
 --
 ALTER TABLE `mata_pelajarans`
-  MODIFY `id_mapel` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_mapel` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -469,13 +413,13 @@ ALTER TABLE `status_kepegawaians`
 -- AUTO_INCREMENT for table `tahun_ajarans`
 --
 ALTER TABLE `tahun_ajarans`
-  MODIFY `id_tahun_ajaran` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_tahun_ajaran` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
@@ -493,7 +437,7 @@ ALTER TABLE `agendas`
 -- Constraints for table `file_perangkats`
 --
 ALTER TABLE `file_perangkats`
-  ADD CONSTRAINT `file_perangkats_id_agenda_foreign` FOREIGN KEY (`id_agenda`) REFERENCES `agendas` (`id_agenda`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `file_perangkats_id_mapel_guru_foreign` FOREIGN KEY (`id_mapel_guru`) REFERENCES `mapel_gurus` (`id_mapel_guru`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `gurus`
