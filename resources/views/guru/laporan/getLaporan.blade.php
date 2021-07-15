@@ -7,6 +7,7 @@
       <th>Hambatan</th>
       <th>Pemecahan</th>
       <th>Keterangan</th>
+      <th colspan="2">Komentar & Saran</th>
   </tr>
   </thead>
   <tbody>
@@ -30,16 +31,22 @@
       @endif
     </td>
     <td>
-      <div class="alert alert-secondary"><strong>{!! $item->materi !!}</strong></div>
+      <div class="alert alert-secondary"><strong>{!! $item->materi ?? 'Tidak Ada Materi' !!}</strong></div>
     </td>
     <td>
-      <div class="alert alert-secondary">{!! $item->hambatan !!}</div>
+      <div class="alert alert-secondary">{!! $item->hambatan ?? 'Tidak Ada Hambatan' !!}</div>
     </td>
     <td>
-      <div class="alert alert-secondary"><strong>{!! $item->pemecahan !!}</strong></div>
+      <div class="alert alert-secondary"><strong>{!! $item->pemecahan ?? 'Tidak Ada Pemecahan' !!}</strong></div>
     </td>
     <td>
-      <div class="alert alert-secondary"><strong>{!! $item->keterangan !!}</strong></div>
+      <div class="alert alert-secondary"><strong>{!! $item->keterangan ?? 'Tidak Ada Keterangan' !!}</strong></div>
+    </td>
+    <td>
+      <div class="alert alert-secondary"><strong>{!! $item->komentar ?? 'Belum Ada Komentar' !!}</strong></div>
+    </td>
+    <td>
+      <div class="alert alert-secondary"><strong>{!! $item->saran ?? 'Belum Ada Saran' !!}</strong></div>
     </td>
 </tr>
   @empty

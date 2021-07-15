@@ -23,6 +23,8 @@
                                   <th>Pemecahan</th>
                                   <th>Absen</th>
                                   <th>Keterangan</th>
+                                  <th>Komentar</th>
+                                  <th>Saran</th>
                                   <th>Opsi</th>
                               </tr>
                               </thead>
@@ -46,6 +48,12 @@
                                   </td>
                                   <td>
                                     {!!$item->keterangan ?? 'Tidak Ada Keterangan' !!}
+                                  </td>
+                                  <td>
+                                    {!!$item->komentar ?? 'Belum Ada Komentar' !!}
+                                  </td>
+                                  <td>
+                                    {!!$item->saran ?? 'Belum Ada Saran' !!}
                                   </td>
                                   <td>
                                     <div class="btn-group mb-1">

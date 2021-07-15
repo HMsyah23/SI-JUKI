@@ -185,7 +185,7 @@
             <li>
                 <a href="{{route('guru.laporan')}}">
                     <i class="mdi mdi-file-multiple"></i>
-                    <span> Laporan Harian </span>
+                    <span> History Laporan </span>
                 </a>
             </li>
         @elseif(Request::is('kepsek/*'))
