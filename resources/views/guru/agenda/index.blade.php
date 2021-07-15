@@ -50,10 +50,10 @@
                                     {!!$item->keterangan ?? 'Tidak Ada Keterangan' !!}
                                   </td>
                                   <td>
-                                    {!!$item->komentar ?? 'Belum Ada Komentar' !!}
+                                    {!!json_decode($item->saran)->komentar ?? 'Belum Ada Komentar' !!}
                                   </td>
                                   <td>
-                                    {!!$item->saran ?? 'Belum Ada Saran' !!}
+                                    {!!json_decode($item->saran)->saran ?? 'Belum Ada Saran' !!}
                                   </td>
                                   <td>
                                     <div class="btn-group mb-1">

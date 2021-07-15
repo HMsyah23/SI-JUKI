@@ -43,10 +43,10 @@
       <div class="alert alert-secondary"><strong>{!! $item->keterangan ?? 'Tidak Ada Keterangan' !!}</strong></div>
     </td>
     <td>
-      <div class="alert alert-secondary"><strong>{!! $item->komentar ?? 'Belum Ada Komentar' !!}</strong></div>
+      <div class="alert alert-secondary"><strong>{!! json_decode($item->saran)->komentar ?? 'Belum Ada Komentar' !!}</strong></div>
     </td>
     <td>
-      <div class="alert alert-secondary"><strong>{!! $item->saran ?? 'Belum Ada Saran' !!}</strong></div>
+      <div class="alert alert-secondary"><strong>{!! json_decode($item->saran)->saran ?? 'Belum Ada Saran' !!}</strong></div>
     </td>
 </tr>
   @empty
