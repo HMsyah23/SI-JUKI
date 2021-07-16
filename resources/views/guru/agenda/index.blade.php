@@ -12,7 +12,7 @@
                                 <h4 class="mt-0 header-title">Jurnal Mengajar Hari {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}}</h4>
                                 <a href="{{route('guru.addKegiatan')}}" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3"><i class="mdi mdi-plus"></i> Tambah Kegiatan</a>      
                             </div>
-                            <table id="responsive-datatable" class="table table-bordered table-bordered dt-responsive nowrap">
+                            <table id="responsive-datatable" class="table table-bordered table-bordered display responsive nowrap">
                               <thead>
                               <tr>
                                   <th>No</th>
@@ -117,5 +117,18 @@
     <!-- third party js ends -->
 
     <!-- Datatables init -->
-    <script src="{{asset('js/pages/datatables.init.js')}}"></script>
+    {{-- <script src="{{asset('js/pages/datatables.init.js')}}"></script> --}}
+
+    <script>
+      $(document).ready(function() {
+        $('#responsive-datatable').DataTable( {
+        // responsive: true,
+        columnDefs: [
+          { targets:8,       className: "none" },
+          { targets:9,       className: "none" },
+          { targets:10,       className: "none" }
+        ]
+    } );
+} );
+    </script>
 @endsection

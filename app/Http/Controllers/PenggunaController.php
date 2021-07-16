@@ -120,4 +120,79 @@ class PenggunaController extends Controller
         Session::flash('success', 'Kata Sandi '.$pengguna->name.' Berhasil Diubah');
         return redirect()->back();
     }
+
+    public function perbarui(Request $r,$id)
+    {
+
+        if ($r->role == 2) {
+            $r->validate([
+                'gelar_depan'    => 'required',
+                'nama_depan'     => 'required',
+                'nama_belakang'  => 'required',
+                'gelar_belakang' => 'required',
+                'email' => 'required',
+                'alamat' => 'required',
+            ]);
+
+    
+            $user = User::find($id);
+            $user->email          = $r->email;
+            $user->name           = $r->nama_depan;
+
+            $guru     = Guru::find($user->guru->id_guru);            
+            $guru->gelar_depan    = $r->gelar_depan;
+            $guru->nama_depan     = $r->nama_depan;
+            $guru->nama_belakang  = $r->nama_belakang;
+            $guru->gelar_belakang = $r->gelar_belakang;
+            $guru->jenis_kelamin  = $r->jenis_kelamin;
+            $guru->tanggal_lahir  = $r->tanggal_lahir;
+            $guru->alamat  = $r->alamat;
+
+            if($r->file('foto') == null)
+            {
+                $new_name = "default-user.png";
+            } else {
+                $new_name = date('dmy').rand() . '.jpg';
+                $destinationPath = public_path('gurus');
+                File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
+                $img = Image::make($r->file('foto')->path())->encode('jpg', 75);
+                $img->resize(256, 256, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath.'/'.$new_name);
+                $guru->foto = $new_name;
+                $user->foto = $new_name;
+            }
+            
+            $guru->save();
+            $user->save();
+
+        } elseif (($r->role == 1) || ($r->role == 0)) {
+                $r->validate([
+                    'name'     => 'required',
+                    'email' => 'required',
+                ]);
+    
+                $user = User::find($id);
+                $user->email          = $r->email;
+                $user->name           = $r->name;
+    
+                if($r->file('foto') == null){
+                    $new_name = "default-user.png";
+                } else {
+                    $new_name = date('dmy').rand() . '.jpg';
+                    $destinationPath = public_path('gurus');
+                    File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true, true);
+                    $img = Image::make($r->file('foto')->path())->encode('jpg', 75);
+                    $img->resize(256, 256, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->save($destinationPath.'/'.$new_name);
+                    $user->foto = $new_name;
+                }
+                
+                $user->save();
+    }
+        
+        Session::flash('success', 'Data '.$user->name.' Berhasil Diubah');
+        return redirect()->back();
+    }
 }

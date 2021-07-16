@@ -65,6 +65,8 @@ Route::group(['prefix' => 'admin','middleware' => 'can:admin,auth'], function ()
     Route::get('/master/pengguna/{id}','PenggunaController@show')->name('admin.detail');
     Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('pengguna.ganti');
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('pengguna.update');
+    Route::post('/master/pengguna/perbarui/{id}','PenggunaController@perbarui')->name('pengguna.perbarui');
+
 
     Route::get('/getInformasiTerkini','HomeController@getInformasi')->name('info.terkini');
 
@@ -85,6 +87,9 @@ Route::group(['prefix' => 'guru','middleware' => 'can:guru,auth'], function () {
     Route::post('/jurnal', 'KegiatanGuruController@jurnalStore')->name('guru.jurnal.store');
     Route::post('/jurnal/{id}', 'KegiatanGuruController@jurnalUpdate')->name('guru.jurnal.update');
     Route::delete('/jurnal/{id}', 'KegiatanGuruController@jurnalDestroy')->name('guru.jurnal.delete');
+
+    Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('guru.ganti');
+    Route::post('/master/pengguna/perbarui/{id}','PenggunaController@perbarui')->name('guru.perbarui');
 
     Route::get('/master/pengguna/{id}','PenggunaController@show')->name('guru.detail');
     Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('guru.ganti');
@@ -116,6 +121,9 @@ Route::group(['prefix' => 'kepsek','middleware' => 'can:kepsek,auth'], function 
     Route::post('/master/pengguna/update/{id}','PenggunaController@update')->name('kepsek.update');
     Route::get('/komentar/{id}','KegiatanKepsekController@komentar')->name('kepsek.komentar');
     Route::post('/komentar/{id}','KegiatanKepsekController@komentarStore')->name('komentar.store');
+
+    Route::post('/master/pengguna/ganti/{id}','PenggunaController@ganti')->name('kepsek.ganti');
+    Route::post('/master/pengguna/perbarui/{id}','PenggunaController@perbarui')->name('kepsek.perbarui');
 
     Route::get('/jurnal','KegiatanKepsekController@jurnal')->name('kepsek.jurnal');
     Route::get('/laporan','KegiatanKepsekController@laporan')->name('kepsek.laporan');
