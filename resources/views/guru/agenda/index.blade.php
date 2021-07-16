@@ -9,7 +9,7 @@
                         <div class="col-12">
                           <div class="card-box table-responsive">
                             <div class="d-flex align-items-center justify-content-between">
-                                <h4 class="mt-0 header-title">Jurnal Mengajar Hari {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}}</h4>
+                                <h4 class="mt-0 header-title">Jurnal Mengajar Hari {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}} <div class="badge badge-primary">{{$tahun->periode ?? ''}}|{{$tahun->semester ?? ''}}</div></h4>
                                 <a href="{{route('guru.addKegiatan')}}" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3"><i class="mdi mdi-plus"></i> Tambah Kegiatan</a>      
                             </div>
                             <table id="responsive-datatable" class="table table-bordered table-bordered display responsive nowrap">

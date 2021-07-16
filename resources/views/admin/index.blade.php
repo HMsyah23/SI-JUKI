@@ -25,7 +25,7 @@
                                     </div>
                                 </div> --}}
 
-                                <h4 class="header-title mt-0 mb-3">Informasi Terkini</h4>
+                                <h4 class="header-title mt-0 mb-3">Informasi Terkini <div class="badge badge-primary">{{$tahun->periode ?? ''}}|{{$tahun->semester ?? ''}}</div></h4>
                                 <div id="informasiTerkini"></div>
                             </div>
                           </div>

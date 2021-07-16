@@ -25,7 +25,9 @@ class KegiatanGuruController extends Controller
 
     public function mapel() {
         $periode = $this->periode;
-        $mapels = MapelGuru::where('id_guru',auth()->user()->guru->id_guru)->get();
+        $mapels = MapelGuru::whereHas('mapel', function ($query) use($periode) {
+                    return $query->where('id_tahun_ajaran', $periode->id_tahun_ajaran);
+                  })->where('id_guru',auth()->user()->guru->id_guru)->get();
         $mapel = MataPelajaran::where('id_tahun_ajaran',$periode->id_tahun_ajaran)->get();
         $kelas  = Kela::where('id_tahun_ajaran',$periode->id_tahun_ajaran)->get();
         return view('guru.mata-pelajaran.index',compact('periode','mapels','mapel','kelas'));
@@ -64,18 +66,20 @@ class KegiatanGuruController extends Controller
 
 
     public function jurnal(){
-        $agendas = Agenda::all();
-        return view('guru.agenda.index',compact('agendas'));
+        $tahun = $this->periode;
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->get();
+        return view('guru.agenda.index',compact('agendas','tahun'));
     }
 
     public function laporan(){
-        $agendas = Agenda::all();
-        return view('guru.laporan.index',compact('agendas'));
+        $tahun = $this->periode;
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->get();
+        return view('guru.laporan.index',compact('agendas','tahun'));
     }
 
     public function getLaporan($dari,$sampai){
-        // dd($sampai);
-        $agendas = Agenda::whereBetween('created_at', [$dari, $sampai])->where('id_guru',Auth::user()->guru->id_guru)->get();
+        $tahun = $this->periode;
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->whereBetween('created_at', [$dari, $sampai])->where('id_guru',Auth::user()->guru->id_guru)->get();
         return view('guru.laporan.getLaporan',compact('agendas'));
     }
 
@@ -209,13 +213,16 @@ class KegiatanGuruController extends Controller
     }
 
     public function filePerangkat(Request $r){
+        $tahun = $this->periode;
         $id_guru = Auth::user()->guru->id_guru;
         $filePerangkats =   FilePerangkat::whereHas('mapelGuru', function($query) use ($id_guru) {
                                 $query->where('id_guru', $id_guru);
+                            })->whereHas('mapelGuru.mapel', function ($query) use($tahun) {
+                                return $query->where('id_tahun_ajaran', $tahun->id_tahun_ajaran);
                             })->get();
         $mapels = MapelGuru::where('id_guru',$id_guru)->get();
         // dd($mapels);
-        return view('guru.berkas.index',compact('mapels','filePerangkats'));
+        return view('guru.berkas.index',compact('mapels','filePerangkats','tahun'));
     }
 
     public function filePerangkatDestroy($id)

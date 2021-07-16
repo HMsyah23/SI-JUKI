@@ -14,7 +14,7 @@ class LaporanController extends Controller
 {
     public function laporanHarian(){
         $periode = TahunAjaran::where('status',1)->first();
-        $agenda = Agenda::whereDate('created_at', '=', Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
+        $agenda = Agenda::where('id_tahun_ajaran',$periode->id_tahun_ajaran)->whereDate('created_at', '=', Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
 
         $path = 'image/logo-land.jpg';
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -29,7 +29,7 @@ class LaporanController extends Controller
 
     public function laporanSemua(){
         $periode = TahunAjaran::where('status',1)->first();
-        $agenda = Agenda::all();
+        $agenda = Agenda::where('id_tahun_ajaran',$periode->id_tahun_ajaran)->get();
 
         $path = 'image/logo-land.jpg';
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -73,7 +73,7 @@ class LaporanController extends Controller
 
     public function laporanDariSampai(Request $r){
         $periode = TahunAjaran::where('status',1)->first();
-        $agenda = Agenda::whereBetween('created_at', [$r->dari, $r->sampai])->where('id_guru',Auth::user()->guru->id_guru)->get();
+        $agenda = Agenda::where('id_tahun_ajaran',$periode->id_tahun_ajaran)->whereBetween('created_at', [$r->dari, $r->sampai])->where('id_guru',Auth::user()->guru->id_guru)->get();
 
         $path = 'image/logo-land.jpg';
         $type = pathinfo($path, PATHINFO_EXTENSION);

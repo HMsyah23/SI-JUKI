@@ -9,7 +9,7 @@
                         <div class="col-12">
                             <div class="card-box table-responsive">
                               <div class="d-flex align-items-center justify-content-between">
-                                  <h4 class="mt-0 header-title">History Jurnal Kegiatan</h4>
+                                  <h4 class="mt-0 header-title">History Jurnal Kegiatan <div class="badge badge-primary">{{$tahun->periode ?? ''}}|{{$tahun->semester ?? ''}}</div> </h4>
                                   {{-- <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center" ><i class="mdi mdi-plus"></i> Tambah Data</button>       --}}
                               </div>
                               <ul class="nav nav-tabs">

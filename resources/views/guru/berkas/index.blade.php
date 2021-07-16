@@ -9,7 +9,7 @@
                         <div class="col-12">
                             <div class="card-box table-responsive">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <h4 class="mt-0 header-title">File Manager Guru </h4>
+                                    <h4 class="mt-0 header-title">File Manager Guru <div class="badge badge-primary">{{$tahun->periode ?? ''}}|{{$tahun->semester ?? ''}}</div></h4>
                                     <a href="#" class="btn btn-purple btn-rounded w-md waves-effect waves-light mb-3" data-toggle="modal" data-target=".bs-example-modal-center"><i class="mdi mdi-upload"></i> Upload File</a>      
                                 </div>
                               <div class="d-flex align-items-center justify-content-between">

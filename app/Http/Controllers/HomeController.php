@@ -23,22 +23,26 @@ class HomeController extends Controller
     }
 
     public function getInformasi(){
+        $tahun = $tahun = TahunAjaran::where('status',1)->first();
         if (Auth::user()->role == 0) {
-            $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status', 'like', '%"admin":1%')->get();
+            $agenda  = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status', 'like', '%"admin":1%')->get();
         } else {
-            $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status', 'like', '%"kepsek":1%')->get();
+            $agenda  = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status', 'like', '%"kepsek":1%')->get();
         }
         return view('admin.getInformasi',compact('agenda'));
     }
 
     public function admin()
     {
-        $agendas = Agenda::all();
+        $tahun = $tahun = TahunAjaran::where('status',1)->first();
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->get();
         $gurus   = Guru::all();
-        $agen  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
-        $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status',1)->get();
-        $filePerangkats  = FilePerangkat::all();
-        return view('admin.index',compact('agendas','agenda','gurus','agen','filePerangkats'));
+        $agen  = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
+        $agenda  = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->where('status',1)->get();
+        $filePerangkats  = FilePerangkat::whereHas('mapelGuru.mapel', function ($query) use($tahun) {
+                                    return $query->where('id_tahun_ajaran', $tahun->id_tahun_ajaran);
+                            })->get();
+        return view('admin.index',compact('agendas','agenda','gurus','agen','filePerangkats','tahun'));
     }
 
     public function guru()

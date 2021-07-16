@@ -12,9 +12,10 @@ use Illuminate\Http\Request;
 class KegiatanKepsekController extends Controller
 {
     public function jurnal(){
-        $agendas = Agenda::all();
-        $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
-        return view('kepsek.agenda.index',compact('agenda','agendas'));
+        $tahun = $tahun = TahunAjaran::where('status',1)->first();
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->get();
+        $agenda  = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
+        return view('kepsek.agenda.index',compact('agenda','agendas','tahun'));
     }
 
     public function komentar($id){
@@ -32,9 +33,10 @@ class KegiatanKepsekController extends Controller
     }
 
     public function laporan(){
-        $agendas = Agenda::all();
-        $agenda  = Agenda::where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get()->groupBy('id_guru');
-        return view('kepsek.laporan.index',compact('agenda','agendas'));
+        $tahun = TahunAjaran::where('status',1)->first();
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->get();
+        $agenda  = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->where('created_at',Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get()->groupBy('id_guru');
+        return view('kepsek.laporan.index',compact('agenda','agendas','tahun'));
     }
 
     public function laporanDetail($id){

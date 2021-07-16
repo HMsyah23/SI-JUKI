@@ -51,7 +51,7 @@
 </tr>
   @empty
       <tr>
-        <th colspan="5" class="text-center">Belum Ada Data</th>
+        <th colspan="7" class="text-center">Belum Ada Data</th>
       </tr>
   @endforelse
   </tbody>

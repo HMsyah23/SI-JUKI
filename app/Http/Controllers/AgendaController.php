@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\File;
 class AgendaController extends Controller
 {
     public function index(){
-        $agendas = Agenda::all();
-        $agendaT = Agenda::whereDate('created_at', '=', Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
-        return view('admin.agenda.index',compact('agendas','agendaT'));
+        $tahun = TahunAjaran::where('status',1)->first();
+        $agendas = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->get();
+        $agendaT = Agenda::where('id_tahun_ajaran',$tahun->id_tahun_ajaran)->whereDate('created_at', '=', Carbon::now()->timezone('Asia/Singapore')->isoFormat('Y/M/D'))->get();
+        return view('admin.agenda.index',compact('agendas','agendaT','tahun'));
     }
 }

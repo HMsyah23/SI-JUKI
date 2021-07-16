@@ -25,7 +25,7 @@
                                     </div>
                                 </div> --}}
 
-                                <h4 class="header-title mt-0 mb-3">Informasi Terkini Hari {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}}</h4>
+                                <h4 class="header-title mt-0 mb-3">Informasi Terkini Hari {{\Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y')}} <div class="badge badge-primary">{{$periode->periode ?? ''}}|{{$periode->semester ?? ''}}</div></h4>
                                 <h3 class="text-center">Sistem Kegiatan Harian Guru</h3>
                                 <h4 class="text-center">Tahun Ajaran {{$periode->periode}}</h4>
                                 <h5 class="text-center text-muted">Semester {{$periode->semester}}</h5>

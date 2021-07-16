@@ -14,8 +14,11 @@ class FilePerangkatController extends Controller
 
     public function index()
     {
-        $filePerangkats = FilePerangkat::with('mapelGuru')->get()->groupBy('mapelGuru.id_guru');
-        return view('admin.berkas.index',compact('filePerangkats'));
+        $tahun = TahunAjaran::where('status',1)->first();
+        $filePerangkats = FilePerangkat::whereHas('mapelGuru.mapel', function ($query) use($tahun) {
+                return $query->where('id_tahun_ajaran', $tahun->id_tahun_ajaran);
+        })->get()->groupBy('mapelGuru.id_guru');
+        return view('admin.berkas.index',compact('filePerangkats','tahun'));
     }
 
     public function create()

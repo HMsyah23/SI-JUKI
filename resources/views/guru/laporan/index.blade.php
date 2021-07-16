@@ -8,7 +8,7 @@
                       <div class="row">
                         <div class="col-12">
                           <div class="card-box table-responsive">
-                            <h4 class="mt-0 header-title">Data Agenda</h4>
+                            <h4 class="mt-0 header-title">Data Agenda <div class="badge badge-primary">{{$tahun->periode ?? ''}}|{{$tahun->semester ?? ''}}</div></h4>
                             <div class="d-flex align-items-center justify-content-start">
                               <form action="{{ route('laporan.dariSampai') }}"  method="POST" enctype="multipart/form-data">
                                 @csrf
