@@ -71,7 +71,7 @@
     <div class="page-number"></div>
   </div>
   <img src="{{$base64}}" width="100%" height="140"/>
-  <table class="table table-sm table-borderless" style="line-height: 1">
+  <table class="table table-sm table-borderless" style="table-layout:fixed;">
     <tr>
       <th colspan="7">
         <strong style="font-size:18px;">Jurnal Mengajar Guru</strong>

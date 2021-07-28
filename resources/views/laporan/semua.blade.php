@@ -46,25 +46,18 @@
         font-size: 30px;
     }
 
-    p {
-        font-size: 8px;
-        line-height:0%;
-    }
 
-    td{
-      font-size: 10px;
+    /* td{
       text-align: center;
       vertical-align: middle;
     }
 
     th{
       text-align: center;
-      font-size: 12px;
-      height:2px;
     }
     .table > tbody > tr > td {
      vertical-align: middle;
-    }
+    } */
     </style>
 <div>
   <div id="footer">
@@ -91,35 +84,36 @@
     </tr>
     
   </table>
-  <table class="table table-bordered dt-responsive table-responsive-sm nowrap" style="width:100%;">
+
+  <table class="table table-bordered" style="table-layout:fixed;">
     <thead>
     <tr>
-        <th style="height:2px; width:5%; font-size:10px;">No</th>
-        <th style="height:2px; width:5%; font-size:10px;">Tanggal</th>
-        <th style="width:13%; font-size:10px;">Pengajar</th>
-        <th style="width:10%; font-size:10px;">Mata Pelajaran</th>
-        <th style="width:10%; font-size:10px;">Kelas</th>
-        <th style="width:10%; font-size:10px;">Jam Ke</th>
-        <th style="width:10%; font-size:10px;">Materi</th>
-        <th style="width:10%; font-size:10px;">Hambatan</th>
-        <th style="width:10%; font-size:10px;">Pemecahan</th>
-        <th style="width:10%; font-size:10px;">Absen</th>
-        <th style="width:10%; font-size:10px;">Keterangan</th>
+        <th style="height:2px; width:2%; font-size:9px; text-align: center;">No</th>
+        <th style="height:2px; width:5%; font-size:9px; text-align: center;">Tanggal</th>
+        <th style="width:13%; font-size:9px; text-align: center;">Pengajar</th>
+        <th style="width:10%; font-size:9px; text-align: center;">Mata Pelajaran</th>
+        <th style="width:4%; font-size:9px; padding-left:8px;">Kelas</th>
+        <th style="width:5%; font-size:9px; padding-left:8px; ">Jam Ke</th>
+        <th style="width:12%; font-size:9px; text-align: center;">Materi</th>
+        <th style="width:12%; font-size:9px; text-align: center;">Hambatan</th>
+        <th style="width:12%; font-size:9px; text-align: center;">Pemecahan</th>
+        <th style="width:7%; font-size:9px; text-align: center;">Absen</th>
+        <th style="width:12%; font-size:9px; text-align: center;">Keterangan</th>
     </tr>
     </thead>
     <tbody>
       @forelse ($agenda as $item)
       <tr>
-        <td>{{$loop->iteration}}</td>
-        <td>{{\Carbon\Carbon::parse($item->created_at)->timezone('Asia/Singapore')->isoFormat('DD/MM/Y')}}</td>
+        <td  style="font-size:8px; text-align: center;">{{$loop->iteration}}</td>
+        <td  style="font-size:8px; text-align: center;">{{\Carbon\Carbon::parse($item->created_at)->timezone('Asia/Singapore')->isoFormat('DD/MM/Y')}}</td>
         <td style="font-size:8px;"><strong>{{$item->guru->gelar_depan.' '.$item->guru->nama_depan.' '.$item->guru->nama_belakang.' '.$item->guru->gelar_belakang}}</strong> </td>
-        <td style="font-size:8px;">
+        <td style="font-size:8px; text-align: center;">
           <strong>{{$item->mapelGuru->mapel->mata_pelajaran}}</strong>
         </td>
-        <td style="font-size:8px;">
+        <td style="font-size:8px; text-align: center;">
          <strong>{{$item->mapelGuru->kelas->kelas}}</strong> 
         </td>
-        <td style="font-size:8px;">
+        <td style="font-size:8px; text-align: center;">
           <strong>{{$item->jam}}</strong>
         </td>
         <td style="font-size:8px;">

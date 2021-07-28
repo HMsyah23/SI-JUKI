@@ -95,7 +95,7 @@
     </tr>
     
   </table>
-  <table class="table table-bordered dt-responsive table-responsive-sm nowrap" style="width:100%;">
+  <table class="table table-bordered dt-responsive table-responsive-sm nowrap" style="table-layout:fixed;">
     <thead>
     <tr>
         <th style="height:2px; width:5%; font-size:10px;">No</th>
